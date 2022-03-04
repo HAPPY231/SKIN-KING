@@ -26,11 +26,20 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     $row = mysqli_fetch_row($balance);
 
 echo<<<end
-    <li onclick='settin()' id='account'>{$_COOKIE['user']}: {$row[0]}PLN</li>
+
+    <li onclick='equ()' id='account' style="position: relative;
+    display: inline-block;">{$_COOKIE['user']}: {$row[0]}PLN
+    <div class="dropdown-content">
+    <a href="equipment.php">Ekwipunek</a>
+    <a href="#" onclick="settin()">Ustawienia</a>
+
+</div>
+</li>
     <div style="display:flex; flex-direction:column;">
     <li id='substraction'>PLN</li>
     <li id='sella'>PLN</li>
     </div>
+
 end;
 }
 else{
@@ -51,12 +60,32 @@ function footer()
 echo<<<END
     <footer>
         <div class="mx-auto w-75 d-flex box">
-            <div style="margin-top:100px; width:100%; display: flex">
+            <div style="margin-top:160px; width:100%; display: flex">
                 <div class="mx-auto in-box1">
-                <img class="logo" src="images/Skin-King.jpg" width="100%" style="min-width:120px;" alt="logo" onclick="home()">
+                <img class="logo" src="images/Skin-King.jpg" width="100%" style="min-width:120px;" alt="logo">
                 </div>
-                <div class="mx-auto w-40 in-box2">
-                awd
+                <div class="mx-auto w-40 d-flex in-box2">
+                <div class="s">
+                <span class="pan">Skiny</span>
+                <a href="#"> <span class="pod">Mniej</span></a>
+                <a href="#"> <span class="pod">Mniej</span></a>
+                <a href="#"> <span class="pod">Mniej</span></a>
+                
+                </div>
+                <div class="s">
+                <span class="pan">Giveaway</span>
+                <a href="#"> <span class="pod">Regulamin</span></a>
+                <a href="#"> <span class="pod">Mniej</span></a>
+                <a href="#"> <span class="pod">Mniej</span></a>
+          
+                
+                </div>
+                <div class="s"><span class="pan">Pomoc</span>
+                <a href="#"> <span class="pod">Kontakt</span></a>
+                <a href="#"> <span class="pod">Regulamin</span></a>
+                <a href="#"> <span class="pod">Uwagi</span></a>
+                
+                </div>
                 </div>
             </div>
         </div>

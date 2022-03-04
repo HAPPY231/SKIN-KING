@@ -32,5 +32,6 @@
         <input type="submit" name="loguot" value="Wyloguj się">
     </form>
 </div>
+<?php footer(); ?>
 </body>
 </html>
