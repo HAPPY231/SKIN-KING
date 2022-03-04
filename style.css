@@ -1,0 +1,192 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+body {
+    font-size: 20px;
+    margin: 0 !important;
+    font-family: 'Open Sans', sans-serif;
+    background-image: url('images/counter-strike-global-offensive-csgo_3840x2160_xtrafondos.com.jpg');
+    background-repeat: no-repeat;
+}
+.container{
+    background-color: #6c757d;
+    height: 1200px;
+    padding:20px;
+}
+
+header li,a,button {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #24252A;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 15%;
+    background-color: #fff;
+    -webkit-box-shadow: inset 1px 35px 27px -34px rgba(66, 68, 90, 1);
+-moz-box-shadow: inset 1px 35px 27px -34px rgba(66, 68, 90, 1);
+box-shadow: inset 1px 35px 27px -34px rgba(66, 68, 90, 1);
+  
+    align-content: center;
+}
+
+footer{
+    width: 100%;
+    height: 500px;
+    background-color: #004b62;
+}
+
+.logo {
+    cursor: pointer;
+}
+
+.nav_links {
+    list-style: none;
+}
+
+.nav_links li {
+    list-style: none;
+    display: inline-block;
+    padding: 0px 20px;
+}
+
+.nav_links li a {
+    transition: all 0.3s ease 0s;
+}
+
+.nav_links li:hover {
+    color: #057393;
+}
+.cases{
+    width: 100%;
+    height: 300px;
+}
+.case {
+    width: 280px;
+    margin: 40px 20px 55px;
+    cursor: pointer;
+    text-align: center;
+    background-color: rgb(253, 253, 253);
+    transition: all 0.3s ease-in-out;
+}
+
+.price{
+    opacity: 0;
+    font-weight: 700;
+    font-size:25px;
+    transition: all 0.3s ease-in-out;
+
+}
+.case:hover{
+    border: 4px solid #50e67b;
+}
+.case:hover .price{
+    -webkit-transform:  translate(0px, 100px);
+    -moz-transform:  translate(0px, 100px);
+    -ms-transform:  translate(0px, 100px);
+    -o-transform:  translate(0px, 100px);
+    transform:  translate(0px, 100px);
+    opacity: 1;
+ }
+.inside{
+    width: 100%;
+    background-color: hsl(0, 0%, 14%);
+    color: #ffffff;
+}
+.name{
+    font-weight: 700;
+}
+.keys{
+    width: 95%;
+    height: 300px;
+    margin-top: 20px;
+    padding:10px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+}
+.key{
+    width: 250px;
+    height: 250px;
+    margin-left: 20px;
+    text-align: center;
+    -webkit-box-shadow: inset 0px 5px 24px 0px rgba(66, 68, 90, 1);
+    -moz-box-shadow: inset 0px 5px 24px 0px rgba(66, 68, 90, 1);
+    box-shadow: inset 0px 5px 24px 0px rgba(66, 68, 90, 1);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: center;
+}
+.perpendicular-line {
+    width: 20%;
+    transform: rotate(90deg);
+    border-color: #1A85FD;
+}
+.horizontal-line {
+    width: 90%;
+    margin-top:0;
+
+    border-color: #1A85FD;
+}
+.open{
+    width: 35%;
+    text-align:center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: flex-start;
+}
+#open{
+    text-transform:capitalize;
+}
+.skins{
+    width: 95%;
+    background-color: #fff;
+    flex-wrap: wrap;
+}
+.skinbox{
+    padding:20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+   
+}
+#account{
+    transform: translateY(35px);
+}
+
+#substraction{
+    color: red;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.5s ease-in-out;
+}
+
+#sella{
+    color: green;
+    opacity: 0;
+    transform: translateY(-50px);   
+    transition: all 0.5s ease-in-out;
+}
+.in-box1{
+    width:40%;
+}
+.in-box2{
+    width:60%;
+}
