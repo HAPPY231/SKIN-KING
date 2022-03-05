@@ -89,16 +89,30 @@ $transaction = "SELECT id FROM user_skins WHERE user_id='$_POST[user_id]' AND sk
 $transactionquery = mysqli_query($dbc,$transaction);
 $tranrow = mysqli_fetch_row($transactionquery);
 
-$case_price = "SELECT price FROM cases WHERE id='$case'";
+$case_price = "SELECT price,experience FROM cases WHERE id='$case'";
 $case_query = mysqli_query($dbc,$case_price);
 $case_row = mysqli_fetch_row($case_query);
 
-$subtraction = "UPDATE user SET account_balance = account_balance-$case_row[0] WHERE id='$_POST[user_id]'";
+$subtraction = "UPDATE user SET account_balance = account_balance-$case_row[0],experience=experience+$case_row[1] WHERE id='$_POST[user_id]'";
 $mysql = mysqli_query($dbc,$subtraction);
 
-$user_account = "SELECT name,account_balance FROM user WHERE id='$_POST[user_id]'";
+$user_account = "SELECT name,account_balance,level,experience FROM user WHERE id='$_POST[user_id]'";
 $user_query = mysqli_query($dbc,$user_account);
 $row_user = mysqli_fetch_row($user_query);
+
+$expmax = ($row_user[2]*100)+200;
+if($expmax<$row_user[3]){
+    $willstay = $expmax - $row_user[3];
+    $levelup = "UPDATE `user` SET `level`=`level`+1,`experience`=(`experience`+{$case_row[1]})-`experience` WHERE `id`='$_POST[user_id]'";
+    $levelupquery = mysqli_query($dbc,$levelup);
+}
+
+if($expmax==$row_user[3]){
+    $willstay = $expmax - $row_user[3];
+    $levelup = "UPDATE `user` SET `level`=`level`+1,`experience`=`experience`-`experience` WHERE `id`='$_POST[user_id]'";
+    $levelupquery = mysqli_query($dbc,$levelup);
+}
+
 $check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb);
 
 $slash = "/";
@@ -111,14 +125,17 @@ echo "var image =".json_encode($row[2]).";";
 echo "var user =".json_encode($row_user[0]).";";
 echo "var account =".json_encode($row_user[1]).";";
 echo "var case_price =".json_encode($case_row[0]).";";
-echo "var slash =".json_encode($slash).";";
+echo "var level =".json_encode($row_user[2]).";";
+
 echo<<<END
+
+
         var url = "'skins/"+image+".png'";
-        $('li#account').html(user+": "+account+"PLN"); 
+        $('li#account').html(user+": "+account+"PLN <div class='dropdown-content'><a href='equipment.php'>Poziom: "+level+"</a><hr class='mx-auto horizontal-line' style='margin-top: 1px; margin-bottom: 9px;'><a href='equipment.php'>Ekwipunek</a><br><a href='settings.php'>Ustawienia</a></div>"); 
         $('li#substraction').html("-"+case_price+"PLN"); 
-        $('li#substraction').css({"opacity":"1","transform":"translate(0px,35px)"}); 
+        $('li#substraction').css({"opacity":"1","transform":"translate(0px,40px)"}); 
         setTimeout(function(){
-            $('li#substraction').css({'opacity':"0",'transform':'translate(0px,0px)'}); 
+            $('li#substraction').css({'opacity':"0",'transform':'translate(0px,-30px)'}); 
         },2000);
 
         $('div.keys').html("LOSOWANIE...");

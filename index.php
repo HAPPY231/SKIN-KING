@@ -48,7 +48,7 @@ END;
     ?>
     <script>
         $(function(){
-            $("div.container").css({"margin-top":"-460px","position":"sticky"});
+            $("div.container").css({"margin-top":"-430px","position":"sticky"});
         });
     </script>
 </body>

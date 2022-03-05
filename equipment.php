@@ -13,6 +13,10 @@
         header("Location:index.php");
     }
 
+    $expmax = ($user[5]*100)+200;
+    $count1 = $user[6] / $expmax;
+    $count2 = $count1 * 100;
+    $percentage = number_format($count2, 0);
 
     define('webkit',' -webkit-box-shadow: inset 0px 0px 17px -3px ');
     define('moz',' -moz-box-shadow: inset 0px 0px 17px -3px ');
@@ -49,15 +53,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php head(); ?>
-    <title>Ekwipunek | <?php echo $user[1]; ?></title>
+    <title>SKIN-KING | <?php echo $user[1]; ?></title>
 </head>
 <body>
     <?php navigation(); ?>
     <div class="container">
         <div class="mx-auto w-80 accountinfo">
-            <h1><?php echo $user[1].": ".$user[4]."PLN " ?>TWÓJ EKWIPUNEK</h1>
+            <h1><?php echo $user[1].": ".$user[4]."PLN " ?></h1>
+            <?php echo "Poziom: ".$user[5];?>
+            <progress id="file" max="100" value="<?php echo $percentage;?>"> <?php echo $percentage;?>% </progress>
+            <?php echo $user[6]."/".$expmax;?>
+            
         </div>
         <div class='mx-auto pagination'>
+            <h3>TWÓJ EKWIPUNEK</h3>
 <?php
             if (isset($_GET['pageno'])) {
                 $pageno = $_GET['pageno'];
@@ -76,7 +85,7 @@
             $count = "SELECT * FROM user_skins WHERE user_id={$user[0]}";
             $myco = mysqli_query($dbc, $count);
             $cou = $myco->num_rows;
-            
+            if($cou>0){
             $rows_per_page = 20;
             
             $lastpage = ceil($cou/$rows_per_page);
@@ -94,12 +103,14 @@
             }
             echo "<a href='{$_SERVER['PHP_SELF']}?pageno={$lastpage}'>&raquo;</a>";
             $limit = 'LIMIT ' .($pageno - 1) * $rows_per_page .',' .$rows_per_page;
+        }
 ?>
 </div>
         </center>
 <div class="skinbox">
 <?php
-            $sql = "SELECT `user_skins`.*,`skins`.`name`,`skins`.`image`,`skins`.`type`,`skins`.`price`,`skins`.`Container Odds` FROM `user_skins` RIGHT JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `user_id`='{$user[0]}' {$limit}";
+        if($cou>0){
+            $sql = "SELECT `user_skins`.*,`skins`.`name`,`skins`.`image`,`skins`.`type`,`skins`.`price`,`skins`.`Container Odds` FROM `user_skins` RIGHT JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `user_id`='{$user[0]}' ORDER BY `skins`.`price` DESC {$limit}";
             $res = mysqli_query($dbc,$sql);
             $skins = mysqli_fetch_all($res, MYSQLI_ASSOC);
             foreach($skins as $skin){
@@ -113,22 +124,35 @@
                                 <button onclick="myf({$skin['id']})">Sprzedaj</button>
                             </div>
                             <div class="imagess" style="background-image: url('skins/{$skin['image']}.png');">
-                            <div class="eprice"><div class="inside">{$skin['price']}PLN</div></div>
+                           
                             </div>
-                        
+                         <div class="eprice"><div class="inside">{$skin['price']}PLN</div></div>
                     </div>
                 END;
             }
-
+        }
+        else{
+            echo "Nie posiadasz żadnych skinów!";
+        }
 ?>
 </div>
     </div>
+
     <?php footer(); ?>
     <script>
         $(function(){
             $("body").css("background-image","repeat");
             $("div.container").css("background-color","#fff");
         });
+
+        function myf(id){
+            $.post("equsell.php",{
+                            user_skins: id,
+                            user_id: <?php echo json_encode($user[0]);?>
+                        },function(data,status){
+                            $('div.accountinfo').append(data);
+                        }); 
+        }
     </script>
 </body>
 </html>

@@ -21,19 +21,20 @@ echo<<<END
 END;        
 if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     include("connect.php");
-    $sql = "SELECT account_balance FROM user WHERE name='$_COOKIE[user]'";
+    $sql = "SELECT account_balance,level FROM user WHERE name='$_COOKIE[user]'";
     $balance = mysqli_query($dbc,$sql);
     $row = mysqli_fetch_row($balance);
 
 echo<<<end
 
-    <li onclick='equ()' id='account' style="position: relative;
+    <li onclick='settin()' id='account' style="position: relative;
     display: inline-block;">{$_COOKIE['user']}: {$row[0]}PLN
     <div class="dropdown-content">
-    <a href="equipment.php">Ekwipunek</a>
-    <a href="#" onclick="settin()">Ustawienia</a>
-
-</div>
+    <a href="equipment.php">Poziom: {$row[1]}</a>
+    <hr class="mx-auto horizontal-line" style="margin-top: 1px; margin-bottom: 9px;">
+    <a href="equipment.php">Ekwipunek</a><br>
+    <a href="settings.php">Ustawienia</a>
+    </div>
 </li>
     <div style="display:flex; flex-direction:column;">
     <li id='substraction'>PLN</li>

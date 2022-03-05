@@ -96,7 +96,7 @@ echo<<<end
 
         $('#sella').css({'opacity':'1','transform':'translate(0px,-5px)'}); 
         setTimeout(function(){
-            $('#sella').css({'opacity':'0','transform':'translate(0px,-26px)'}); 
+            $('#sella').css({'opacity':'0','transform':'translate(0px,-50px)'}); 
         },2000);
     
 </script>
@@ -116,7 +116,6 @@ unset($_SESSION['skin_sell']);
                             user_id: <?php echo json_encode($user[0]); ?>
                         },function(data,status){
                             $('div.keys').html(data);
-                            
                         });
                     });
 

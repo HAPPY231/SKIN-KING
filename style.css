@@ -107,6 +107,7 @@ footer{
     width: 100%;
     background-color: hsl(0, 0%, 14%);
     color: #ffffff;
+    padding: 0px 5px;
 }
 
 .sellorwithdraw{
@@ -115,7 +116,7 @@ footer{
     visibility: hidden;
     opacity: 0;
     position: absolute;
-    background-color: hsl(0, 0%, 14%);
+    background-color: hsla(0, 0%, 14%, 0.904);
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -138,7 +139,7 @@ footer{
 }
 .skin:hover .sellorwithdraw{
     visibility: visible;
-    opacity: 0.85;
+    opacity: 1;
 }
 
 .name{
