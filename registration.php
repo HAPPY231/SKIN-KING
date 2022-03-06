@@ -274,7 +274,7 @@ END;
 </div>		
 
 	</div>
-	<div class="regulav">
+	<center><div class="regulav">
 	<label>
 			<input type="checkbox" name="regulamin" <?php
 			if (isset($_SESSION['e_regulamin']))
@@ -283,7 +283,7 @@ END;
 				unset($_SESSION['e_regulamin']);
 			}
 				?>/>       Akceptuję regulamin
-		</label>
+		</label></center>
 		
 		<?php
 			if (isset($_SESSION['e_regulamin']))
@@ -300,7 +300,7 @@ END;
 
     </div>
     </div>
-	
+	<?php footer(); ?>
     </body>
 </body>
 </html>

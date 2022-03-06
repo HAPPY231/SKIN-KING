@@ -18,7 +18,3 @@ function settin()
 {
     window.location.href = "settings.php";
 }
-function equ()
-{
-    window.location.href = "equipment.php";
-}

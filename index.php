@@ -1,5 +1,6 @@
 <?php
     session_start();
+
 ?>
 <!doctype html>
 <html lang="pl">
@@ -30,10 +31,11 @@
             foreach($cases as $case){
 echo<<<END
                 <div class="case" onclick="cases({$case['id']})">
-                    <div class="mx-auto image"  style="width: 250px; height:250px; background-image: url('cases/{$case['image']}.png'); background-repeat: no-repeat;  background-size: 100% 100%;">
+                <div class="name" >{$case['name']}</div>
+                    <div class="mx-auto image" style="background-image: url('cases/{$case['image']}.png');">
                     <div class="price"><div class="inside">{$case['price']}PLN</div></div>
                     </div>
-                    <div class="name" >{$case['name']}</div>
+                    
                     
                 </div>  
 END;

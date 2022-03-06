@@ -31,5 +31,6 @@ Hasło: <input type="password" id="haslo" name="haslo"/><br><br>
     ?>
     </div>
 </div>
+<?php footer(); ?>
 </body>
 </html>

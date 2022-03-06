@@ -26,34 +26,7 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     $row = mysqli_fetch_row($case)
     ?>
     <title>SKIN-KING | <?php echo $row[1]; ?></title>
-<?php
-        define('webkit',' -webkit-box-shadow: inset 0px 0px 17px -3px ');
-        define('moz',' -moz-box-shadow: inset 0px 0px 17px -3px ');
-        define('box',' box-shadow: inset 0px 0px 17px -3px ');
-        define('colorr','#EB4B4B;');
-        define('colorp','#EB4BE6;');
-        define('colorpur','#9300ff;');
-        define('colorb','#4b69ff;');
 
-        function check($odd,$webkit,$moz,$box,$colorr,$colorp,$colorpur,$colorb){
-
-            if($odd == "Red"){
-                return  $webkit.$colorr.$moz.$colorr.$box.$colorr;
-            }
-
-            if($odd == "Pink"){
-                return $webkit.$colorp.$moz.$colorp.$box.$colorp;
-            }
-
-            if($odd == "Purple"){
-                return $webkit.$colorpur.$moz.$colorpur.$box.$colorpur;
-            }
-
-            if($odd == "Blue"){
-                return $webkit.$colorb.$moz.$colorb.$box.$colorb;
-            }
-        }
-?>
 </head>
 <body>
     <?php navigation(); ?>

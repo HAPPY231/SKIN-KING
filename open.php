@@ -1,58 +1,26 @@
 <?php
- define('webkit',' -webkit-box-shadow: inset 0px 0px 17px -3px ');
- define('moz',' -moz-box-shadow: inset 0px 0px 17px -3px ');
- define('box',' box-shadow: inset 0px 0px 17px -3px ');
- define('colorr','#EB4B4B;');
- define('colorp','#EB4BE6;');
- define('colorpur','#9300ff;');
- define('colorb','#4b69ff;');
 
- function check($odd,$webkit,$moz,$box,$colorr,$colorp,$colorpur,$colorb){
 
-     if($odd == "Red"){
-         return  $webkit.$colorr.$moz.$colorr.$box.$colorr;
-     }
-
-     if($odd == "Pink"){
-         return $webkit.$colorp.$moz.$colorp.$box.$colorp;
-     }
-
-     if($odd == "Purple"){
-         return $webkit.$colorpur.$moz.$colorpur.$box.$colorpur;
-     }
-
-     if($odd == "Blue"){
-         return $webkit.$colorb.$moz.$colorb.$box.$colorb;
-     }
- }
-
-echo "<ul class='gallery'>";
 $case = $_POST['case_id'];
 $user = $_POST['user_id'];
 
 $i = 0;
 $percentage = 0;
 include("connect.php");
+include("include.php");
 $skins = "SELECT * FROM `skins_in_cases`  right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY `skins`.`price` DESC";
 $daw = mysqli_query($dbc, $skins);
 $all = mysqli_fetch_all($daw,MYSQLI_ASSOC);
+
 foreach($all as $case_skin){
-$inside = "SELECT * FROM skins WHERE id=$case_skin[skin_id]";
-$db = mysqli_query($dbc,$inside);
-$skis = mysqli_fetch_all($db,MYSQLI_ASSOC);
+
 
     $a[$i] = $case_skin['skin_id'];
     $b[$i] = $case_skin['price'];
     $percentage = $percentage + $case_skin['price'];
 
-//    echo<<<end
-//        <li style="width: 200px; height:190px; background-image: url('skins/{$skin['image']}.png'); background-repeat: no-repeat;  background-size: 100% 100%;">{$skin['name']}</li>     
-//
-//    end;
-
 $i++;
 }
-echo "</ul>";
 
 $r = array();
 $x = 0;
@@ -114,8 +82,49 @@ if($expmax==$row_user[3]){
 }
 
 $check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb);
+echo "<hr class='perpendicular-line' style='z-index: 2; width: 3px; height: 246px; transform: translate(33px, -16px);'>";
+echo "<ul class='gallery'>";
+$skinsra = "SELECT * FROM `skins_in_cases` right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY rand()";
+$dawra = mysqli_query($dbc, $skinsra);
+$alla = mysqli_fetch_all($dawra,MYSQLI_ASSOC);
+for($x=0; $x<=3; $x++){
+    foreach($alla as $case_skina){
 
-$slash = "/";
+            $check = check($case_skina['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb);
+        echo<<<end
+            
+            <li style="width: 200px; height:190px; text-align:center; {$check} background-color: #fff; background-image: url('skins/{$case_skina['image']}.png');background-repeat: no-repeat;  background-size: 100% 100%;">{$case_skina['name']}</li>
+        end;
+
+
+    }
+}
+$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb);
+
+echo<<<END
+
+<li style="width: 200px; height:190px; text-align:center; background-color: #fff; {$check} background-image: url('skins/{$row[2]}.png');background-repeat: no-repeat; background-size: 100% 100%;">{$row[1]}</li>
+
+END;
+$skinsra = "SELECT * FROM `skins_in_cases` right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY rand()";
+$dawra = mysqli_query($dbc, $skinsra);
+$alla = mysqli_fetch_all($dawra,MYSQLI_ASSOC);
+
+    foreach($alla as $case_skina){
+
+            $check = check($case_skina['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb);
+        echo<<<end
+            
+            <li style="width: 200px; height:190px; text-align:center; {$check} background-color: #fff; background-image: url('skins/{$case_skina['image']}.png');background-repeat: no-repeat;  background-size: 100% 100%;">{$case_skina['name']}</li>
+        end;
+
+
+    }
+
+echo "</ul>";
+
+$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb);
+
 echo "<script>";
 echo "var tranid =".json_encode($tranrow[0]).";";
 echo "var skin_id =".json_encode($row[0]).";";
@@ -129,16 +138,22 @@ echo "var level =".json_encode($row_user[2]).";";
 
 echo<<<END
 
-
+        
         var url = "'skins/"+image+".png'";
         $('li#account').html(user+": "+account+"PLN <div class='dropdown-content'><a href='equipment.php'>Poziom: "+level+"</a><hr class='mx-auto horizontal-line' style='margin-top: 1px; margin-bottom: 9px;'><a href='equipment.php'>Ekwipunek</a><br><a href='settings.php'>Ustawienia</a></div>"); 
         $('li#substraction').html("-"+case_price+"PLN"); 
         $('li#substraction').css({"opacity":"1","transform":"translate(0px,40px)"}); 
         setTimeout(function(){
-            $('li#substraction').css({'opacity':"0",'transform':'translate(0px,-30px)'}); 
+            $('li#substraction').css({'opacity':'0','transform':'translate(0px,-30px)'}); 
         },2000);
 
-        $('div.keys').html("LOSOWANIE...");
+        $('.gallery').animate({  borderColapse: -69.9 }, {
+            step: function(now,fx) {
+              $(this).css('transform','translate('+now+'%)');  
+            },
+            duration:'3000'
+        },'linear');
+
         setTimeout(function(){
             $('div.keys').css({"flex-direction":"column","text-align":"center"});
             $('div.keys').html(price+"PLN<div class='skin' style='width: 250px; height: 250px; margin-top: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; align-content: flex-end {$check}'>"+name+" <img src='skins/"+image+".png' style='width: 250px;height:250px;'></div><br><div class='d-flex'><button id='sell'>Sprzedaj</button><br><button id='again'>Zostaw</button></div></div>");
@@ -157,7 +172,7 @@ echo<<<END
                 window.location.reload();
         });
         
-    },2000);
+    },3600); 
         
        
 </script>
