@@ -89,7 +89,7 @@
             $skins = mysqli_fetch_all($res, MYSQLI_ASSOC);
             foreach($skins as $skin){
 
-                $check = check($skin['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb);
+                $check = check($skin['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
                 echo<<<END
                 
                     <div class="skin" style="width: 250px; height: 250px; margin-top: 20px; margin-left: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; {$check}">

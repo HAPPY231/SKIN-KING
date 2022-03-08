@@ -15,6 +15,8 @@
 
 	session_start();
 
+	date_default_timezone_set('Europe/Warsaw');
+
 	if (isset($_POST['email']))
 	{
 		//Udana walidacja? Załóżmy, że tak!
@@ -184,8 +186,8 @@ END;
 				if ($wszystko_OK==true)
 				{
 					//Hurra, wszystkie testy zaliczone, dodajemy gracza do bazy
-					
-					if ($dbc->query("INSERT INTO user VALUES (NULL, '$nick', '$haslo_hash', '$email',0)"))
+					$data = date("Y-m-d H:i:s");
+					if ($dbc->query("INSERT INTO user VALUES (NULL, '$nick', '$haslo_hash', '$email',100,1,0,'$data')"))
 					{
 						$_SESSION["udalosieza"] = true;
 						$_SESSION['udanarejestracja']=true;
@@ -301,6 +303,11 @@ END;
     </div>
     </div>
 	<?php footer(); ?>
-    </body>
+	<script>
+        $(function(){
+            $("div.container").css({"position":"sticky","background-color":"#949494"});
+        });
+    </script>
+</body>
 </body>
 </html>

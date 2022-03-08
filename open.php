@@ -43,7 +43,7 @@ $c = array_combine($a,$rv);
         return $closest;
     }
 
-$rang = rand(1,100);
+$rang = rand(0,100);
 $win = array_search(getClosest($rang,$c),$c);
 
 $sql = "SELECT * FROM skins WHERE id=$win";
@@ -81,8 +81,8 @@ if($expmax==$row_user[3]){
     $levelupquery = mysqli_query($dbc,$levelup);
 }
 
-$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb);
-echo "<hr class='perpendicular-line' style='z-index: 2; width: 3px; height: 246px; transform: translate(33px, -16px);'>";
+$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
+echo "<hr class='perpendicular-line' style='z-index: 2; width: 3px; height: 246px; transform: translate(33px, -16px);background-color: black;'>";
 echo "<ul class='gallery'>";
 $skinsra = "SELECT * FROM `skins_in_cases` right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY rand()";
 $dawra = mysqli_query($dbc, $skinsra);
@@ -90,7 +90,7 @@ $alla = mysqli_fetch_all($dawra,MYSQLI_ASSOC);
 for($x=0; $x<=3; $x++){
     foreach($alla as $case_skina){
 
-            $check = check($case_skina['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb);
+            $check = check($case_skina['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
         echo<<<end
             
             <li style="width: 200px; height:190px; text-align:center; {$check} background-color: #fff; background-image: url('skins/{$case_skina['image']}.png');background-repeat: no-repeat;  background-size: 100% 100%;">{$case_skina['name']}</li>
@@ -99,22 +99,22 @@ for($x=0; $x<=3; $x++){
 
     }
 }
-$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb);
+$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
 
 echo<<<END
 
 <li style="width: 200px; height:190px; text-align:center; background-color: #fff; {$check} background-image: url('skins/{$row[2]}.png');background-repeat: no-repeat; background-size: 100% 100%;">{$row[1]}</li>
 
 END;
+
 $skinsra = "SELECT * FROM `skins_in_cases` right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY rand()";
 $dawra = mysqli_query($dbc, $skinsra);
 $alla = mysqli_fetch_all($dawra,MYSQLI_ASSOC);
 
     foreach($alla as $case_skina){
 
-            $check = check($case_skina['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb);
+            $check = check($case_skina['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
         echo<<<end
-            
             <li style="width: 200px; height:190px; text-align:center; {$check} background-color: #fff; background-image: url('skins/{$case_skina['image']}.png');background-repeat: no-repeat;  background-size: 100% 100%;">{$case_skina['name']}</li>
         end;
 
@@ -123,7 +123,7 @@ $alla = mysqli_fetch_all($dawra,MYSQLI_ASSOC);
 
 echo "</ul>";
 
-$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb);
+$check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
 
 echo "<script>";
 echo "var tranid =".json_encode($tranrow[0]).";";
@@ -137,8 +137,25 @@ echo "var case_price =".json_encode($case_row[0]).";";
 echo "var level =".json_encode($row_user[2]).";";
 
 echo<<<END
+ var animationvalue = -69.9;
+ $(function(){
+    if($(window).width() < 1380 && $(window).width() > 1110) {
+        animationvalue = -74.25;
+    }
+    if($(window).width() < 1850 && $(window).width() > 1380) {
+        animationvalue = -73.25;
+    }
+    if($(window).width() < 2156 && $(window).width() > 1900) {
+        animationvalue = -70.5;
+    }
+    if($(window).width() < 2563 && $(window).width() > 2178) {
+        animationvalue = -67.3;
+    }
+    if($(window).width() > 2564) {
+        animationvalue = -67.5;
+    }
+});
 
-        
         var url = "'skins/"+image+".png'";
         $('li#account').html(user+": "+account+"PLN <div class='dropdown-content'><a href='equipment.php'>Poziom: "+level+"</a><hr class='mx-auto horizontal-line' style='margin-top: 1px; margin-bottom: 9px;'><a href='equipment.php'>Ekwipunek</a><br><a href='settings.php'>Ustawienia</a></div>"); 
         $('li#substraction').html("-"+case_price+"PLN"); 
@@ -147,7 +164,7 @@ echo<<<END
             $('li#substraction').css({'opacity':'0','transform':'translate(0px,-30px)'}); 
         },2000);
 
-        $('.gallery').animate({  borderColapse: -69.9 }, {
+        $('.gallery').animate({  borderColapse: animationvalue }, {
             step: function(now,fx) {
               $(this).css('transform','translate('+now+'%)');  
             },
@@ -172,7 +189,7 @@ echo<<<END
                 window.location.reload();
         });
         
-    },3600); 
+    },4000); 
         
        
 </script>

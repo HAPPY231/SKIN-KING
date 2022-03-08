@@ -2,6 +2,7 @@
 
 function head()
 {
+    date_default_timezone_set('Europe/Warsaw');
 echo<<<END
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -32,6 +33,7 @@ echo<<<end
     <div class="dropdown-content">
     <a href="equipment.php">Poziom: {$row[1]}</a>
     <hr class="mx-auto horizontal-line" style="margin-top: 1px; margin-bottom: 9px;">
+    <a href="lottery.php">Losowanie</a><br>
     <a href="equipment.php">Ekwipunek</a><br>
     <a href="settings.php">Ustawienia</a>
     </div>
@@ -101,8 +103,13 @@ END;
     define('colorp','#EB4BE6;');
     define('colorpur','#9300ff;');
     define('colorb','#4b69ff;');
+    define('colorg','#FFD700;');
 
-    function check($odd,$webkit,$moz,$box,$colorr,$colorp,$colorpur,$colorb){
+    function check($odd,$webkit,$moz,$box,$colorr,$colorp,$colorpur,$colorb,$colorg){
+
+        if($odd == "Gold"){
+            return  $webkit.$colorg.$moz.$colorg.$box.$colorg;
+        }
 
         if($odd == "Red"){
             return  $webkit.$colorr.$moz.$colorr.$box.$colorr;

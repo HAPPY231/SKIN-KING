@@ -19,18 +19,22 @@
 <div class="container">
     <div class="mx-auto log" style="width: 30%;">
         <form action="web.php" method="POST" style="width: 30%;">
-        Login: <input type="text" id="loign" name="login"/><br>
-Hasło: <input type="password" id="haslo" name="haslo"/><br><br>
-<input type="submit" value="Zaloguj się">
+            Login: <input type="text" id="loign" name="login"/><br>
+            Hasło: <input type="password" id="haslo" name="haslo"/><br><br>
+            <input type="submit" value="Zaloguj się">
         </form>
-        <?php 
+<?php 
     if(isset($_SESSION['blad'])){
     echo $_SESSION['blad'];
     }
-
-    ?>
+?>
     </div>
 </div>
 <?php footer(); ?>
+    <script>
+        $(function(){
+            $("div.container").css({"position":"sticky","background-color":"#949494"});
+        });
+    </script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 <?php
 session_start();
+date_default_timezone_set('Europe/Warsaw');
+
 if (isset($_POST['login']) && isset($_POST['haslo'])) {
     require_once "connect.php";
 

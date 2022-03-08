@@ -9,6 +9,7 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     $get = mysqli_query($dbc,$users);
     $user = mysqli_fetch_row($get);
 }
+
 ?>
 <!doctype html>
 <html lang="pl">
@@ -109,7 +110,7 @@ unset($_SESSION['skin_sell']);
                 foreach($all as $case_skin){
 
 
-                    $check = check($case_skin['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb);
+                    $check = check($case_skin['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
 echo<<<END
 
                         <div class="skin" style="width: 250px; height: 250px; margin-top: 20px; margin-left: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; align-content: flex-end;{$check}">
