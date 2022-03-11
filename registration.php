@@ -162,7 +162,7 @@ END;
 				}		
 
 				//Czy nick jest już zarezerwowany?
-				$rezultat = $dbc->query("SELECT id FROM user WHERE name='$nick'");
+				$rezultat = $dbc->query("SELECT id FROM user WHERE login='$nick'");
 				
 				if (!$rezultat) throw new Exception($polaczenie->error);
 				

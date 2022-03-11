@@ -5,7 +5,7 @@ include("connect.php");
 
 $_SESSION['case'] = $_GET['case_id']; 
 if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
-    $users = "SELECT * FROM user WHERE name='$_COOKIE[user]'";
+    $users = "SELECT * FROM user WHERE login='$_COOKIE[user]'";
     $get = mysqli_query($dbc,$users);
     $user = mysqli_fetch_row($get);
 }
@@ -24,6 +24,10 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     
     $sql = "SELECT * FROM cases WHERE id=$_SESSION[case]";
     $case = mysqli_query($dbc,$sql);
+    $checkforsecure = $case->num_rows;
+    if($checkforsecure<=0){
+        header("Location:index.php");
+    }
     $row = mysqli_fetch_row($case)
     ?>
     <title>SKIN-KING | <?php echo $row[1]; ?></title>

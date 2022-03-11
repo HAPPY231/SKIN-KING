@@ -8,6 +8,7 @@ echo<<<END
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <script type="text/javascript" src="java.js"></script>
+  <link rel="icon" href="images/rifle.png">
 END;
 }
 
@@ -22,7 +23,7 @@ echo<<<END
 END;        
 if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     include("connect.php");
-    $sql = "SELECT account_balance,level FROM user WHERE name='$_COOKIE[user]'";
+    $sql = "SELECT account_balance,level FROM user WHERE login='$_COOKIE[user]'";
     $balance = mysqli_query($dbc,$sql);
     $row = mysqli_fetch_row($balance);
 

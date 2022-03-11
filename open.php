@@ -43,7 +43,7 @@ $c = array_combine($a,$rv);
         return $closest;
     }
 
-$rang = rand(0,100);
+$rang = rand(0.0000005,100);
 $win = array_search(getClosest($rang,$c),$c);
 
 $sql = "SELECT * FROM skins WHERE id=$win";
@@ -64,7 +64,7 @@ $case_row = mysqli_fetch_row($case_query);
 $subtraction = "UPDATE user SET account_balance = account_balance-$case_row[0],experience=experience+$case_row[1] WHERE id='$_POST[user_id]'";
 $mysql = mysqli_query($dbc,$subtraction);
 
-$user_account = "SELECT name,account_balance,level,experience FROM user WHERE id='$_POST[user_id]'";
+$user_account = "SELECT login,account_balance,level,experience FROM user WHERE id='$_POST[user_id]'";
 $user_query = mysqli_query($dbc,$user_account);
 $row_user = mysqli_fetch_row($user_query);
 

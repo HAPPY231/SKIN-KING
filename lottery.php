@@ -2,7 +2,7 @@
     session_start();
     include("connect.php");
     if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
-        $users = "SELECT * FROM user WHERE name='$_COOKIE[user]'";
+        $users = "SELECT * FROM user WHERE login='$_COOKIE[user]'";
         $get = mysqli_query($dbc,$users);
         $user = mysqli_fetch_row($get);
     }
@@ -35,12 +35,15 @@
     // echo $user[7]."<br>";
     // echo date("Y-m-d H:i:s")."<br>";
     $dateactual = date("Y-m-d H:i:s");
+    $now_timestamp = strtotime($dateactual);
+    $diff_timestamp = $now_timestamp - strtotime($user[7]);
+    $howmuch = round($diff_timestamp/60);
+    $abs = abs($howmuch);
     if($user[7]<$dateactual){
         echo "<button id='draw'>Losuj</button>";
     }
     else{
-        
-        echo "Kolejna możliwość losowania o ".$user[7];
+        echo "Kolejna możliwość losowania za ".$abs." minut";
     }
     ?></div>
     </div>

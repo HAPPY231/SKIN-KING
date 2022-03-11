@@ -5,7 +5,7 @@
     include("connect.php");
 
     if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
-        $users = "SELECT * FROM user WHERE name='$_COOKIE[user]'";
+        $users = "SELECT * FROM user WHERE login='$_COOKIE[user]'";
         $get = mysqli_query($dbc,$users);
         $user = mysqli_fetch_row($get);
     }

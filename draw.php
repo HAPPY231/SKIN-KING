@@ -27,7 +27,7 @@
         }
         return $closest;
     }
-    $rang = rand(0,100);
+    $rang = rand(0.0000005,100);
     $win = array_search(getClosest($rang,$c),$c);
     $sqladd = "UPDATE user SET account_balance=account_balance+$win WHERE id='$user_id'";
     $addquery = mysqli_query($dbc,$sqladd);
@@ -35,7 +35,7 @@
     date_default_timezone_set('Europe/Warsaw');
     $date=date_create(date("Y-m-d H:i:s"));
     date_modify($date,"+30 minutes");
-    $dataf = date_format($date,"Y-m-d H:i:s")."<br>";
+    $dataf = date_format($date,"Y-m-d H:i:s");
 
     $datechange = "UPDATE user SET `date`='$dataf' WHERE id='$user_id'";
     $mydatechaquery = mysqli_query($dbc,$datechange);

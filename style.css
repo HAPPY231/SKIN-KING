@@ -6,9 +6,9 @@ body {
     margin: 0 !important;
     font-family: 'Open Sans', sans-serif;
     background-image: url('images/counter-strike-global-offensive-csgo_3840x2160_xtrafondos.com.jpg');
+    overflow-x: hidden;
 }
 .container{
-    
     min-height: 1200px;
     padding:20px;
 }
@@ -32,6 +32,13 @@ header{
     -moz-box-shadow: inset 1px 35px 27px -34px rgba(66, 68, 90, 1);
     box-shadow: inset 1px 35px 27px -34px rgba(66, 68, 90, 1);
     align-content: center;
+}
+
+.slideskins{
+    height: 280px;
+    align-items: center;
+    align-content: center;
+    background-image: url("images/get_image_large.jfif");
 }
 
 footer{

@@ -13,7 +13,7 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
 
         $login = htmlentities($login, ENT_QUOTES, "UTF-8");
 
-        if ($rezultat = $dbc->query(sprintf("SELECT * FROM user WHERE name='%s'", mysqli_real_escape_string($dbc, $login)))) {
+        if ($rezultat = $dbc->query(sprintf("SELECT * FROM user WHERE login='%s'", mysqli_real_escape_string($dbc, $login)))) {
             $ilu_userow = $rezultat->num_rows;
             if ($ilu_userow>0) {
                 $wiersz = $rezultat->fetch_assoc();
