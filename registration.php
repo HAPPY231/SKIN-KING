@@ -187,7 +187,7 @@ END;
 				{
 					//Hurra, wszystkie testy zaliczone, dodajemy gracza do bazy
 					$data = date("Y-m-d H:i:s");
-					if ($dbc->query("INSERT INTO user VALUES (NULL, '$nick', '$haslo_hash', '$email',100,1,0,'$data')"))
+					if ($dbc->query("INSERT INTO user VALUES (NULL, '$nick', '$haslo_hash', '$email',100,1,0,'$data',0)"))
 					{
 						$_SESSION["udalosieza"] = true;
 						$_SESSION['udanarejestracja']=true;

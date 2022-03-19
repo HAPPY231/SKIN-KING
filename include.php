@@ -14,16 +14,46 @@ END;
 
 function navigation()
 {
+    if(@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod'] && isset($_POST['loguot'])){
+
+            
+        setcookie('zalogowany', null, time() - 3600); 
+        setcookie('user', null, time() - 3600); 
+        setcookie('email', null, time() - 3600);
+        setcookie('checksum', null, time() - 3600);
+        setcookie('login_dod', null, time() - 3600); 
+    unset($_POST['loguot']);
+    header("Location:index.php");
+}
 echo<<<END
 <header>
-    <div style="width:80%; display: flex; justify-content: space-between; align-items: center; margin-left:auto; margin-right:auto; background-color: #fff; align-content: center;">
-        <img class="logo" src="images/Skin-King.jpg" width="26%" style="min-width:120px;" alt="logo" onclick="home()">
+    <div style="width:80%; display: flex; justify-content: space-between; align-items: center; margin-left:auto; margin-right:auto; align-content: center;">
+        <img class="logo" src="images/Skin-King0.jpg" width="26%" style="min-width:120px;" alt="logo" onclick="home()">
+        <script>
+        var number = Math.floor(Math.random() * 2);
+
+        $(function(){
+            $(".logo").attr("src","images/Skin-King"+number+".jpg");
+            setInterval(function(){
+                if(number==2){
+                    number=0;
+                }
+                else{
+                    number=number+1;
+                }
+                $(".logo").fadeOut(1440, function(){
+                    $(".logo").attr('src',"images/Skin-King"+number+".jpg").fadeIn(1440)
+                    })
+                
+            },10000);
+        });
+        </script>
         <nav>
             <ul class="nav_links">
 END;        
 if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     include("connect.php");
-    $sql = "SELECT account_balance,level FROM user WHERE login='$_COOKIE[user]'";
+    $sql = "SELECT account_balance,level,admin FROM user WHERE login='$_COOKIE[user]'";
     $balance = mysqli_query($dbc,$sql);
     $row = mysqli_fetch_row($balance);
 
@@ -36,7 +66,15 @@ echo<<<end
     <hr class="mx-auto horizontal-line" style="margin-top: 1px; margin-bottom: 9px;">
     <a href="lottery.php">Losowanie</a><br>
     <a href="equipment.php">Ekwipunek</a><br>
-    <a href="settings.php">Ustawienia</a>
+    <a href="settings.php">Ustawienia</a><br>
+end;
+    if($row[2]==1){
+        echo "<a href='admin.php'>Administracja</a>";
+    }
+echo<<<end
+    <form method="POST">
+        <input type="submit" id="sell" name="loguot"  value="Wyloguj się">
+    </form>
     </div>
 </li>
     <div style="display:flex; flex-direction:column;">
@@ -71,23 +109,23 @@ echo<<<END
                 <div class="mx-auto w-40 d-flex in-box2">
                 <div class="s">
                 <span class="pan">Skiny</span>
-                <a href="#"> <span class="pod">Mniej</span></a>
-                <a href="#"> <span class="pod">Mniej</span></a>
-                <a href="#"> <span class="pod">Mniej</span></a>
+                    <a href="#"> <span class="pod">Ekwipunek</span></a>
+                    <a href="#"> <span class="pod">Poziom konta</span></a>
+                    <a href="#"> <span class="pod">Doładowanie</span></a>
                 
                 </div>
                 <div class="s">
                 <span class="pan">Giveaway</span>
-                <a href="#"> <span class="pod">Regulamin</span></a>
-                <a href="#"> <span class="pod">Mniej</span></a>
-                <a href="#"> <span class="pod">Mniej</span></a>
+                    <a href="#"> <span class="pod">Regulamin</span></a>
+                    <a href="#"> <span class="pod">Zasady</span></a>
+                    <a href="#"> <span class="pod">Nagrody</span></a>
           
                 
                 </div>
                 <div class="s"><span class="pan">Pomoc</span>
-                <a href="#"> <span class="pod">Kontakt</span></a>
-                <a href="#"> <span class="pod">Regulamin</span></a>
-                <a href="#"> <span class="pod">Uwagi</span></a>
+                    <a href="#"> <span class="pod">Kontakt</span></a>
+                    <a href="#"> <span class="pod">Regulamin</span></a>
+                    <a href="#"> <span class="pod">Uwagi</span></a>
                 
                 </div>
                 </div>

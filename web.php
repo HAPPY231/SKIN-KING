@@ -22,11 +22,11 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
                     
                     $cps = md5("cossawdawsdodatae", FALSE);
                     setcookie('zalogowany', 1, time()+60*60*24*90); 
-            setcookie('user', $wiersz['name'], time()+60*60*24*90); 
-            setcookie('email', $wiersz['email'], time()+60*60*24*90); 
-            setcookie('login_dod', $cps, time()+60*60*24*90); 
-            setcookie('checksum', md5($wiersz['name']).$cps, time()+60*60*24*90);
-            unset($_SESSION['blad']);
+                    setcookie('user', $wiersz['login'], time()+60*60*24*90); 
+                    setcookie('email', $wiersz['email'], time()+60*60*24*90); 
+                    setcookie('login_dod', $cps, time()+60*60*24*90); 
+                    setcookie('checksum', md5($wiersz['login']).$cps, time()+60*60*24*90);
+                    unset($_SESSION['blad']);
                     header("Location:index.php");
                 } else {
                     $_SESSION['blad'] = "<script>$(function(){ $('#loign').css({'border-color':'#F90716','border-weight':'1px','border-style':'solid'}); $('#haslo').css({'border-color':'#F90716','border-weight':'1px','border-style':'solid'});});

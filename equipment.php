@@ -64,6 +64,7 @@
             
             $lastpage = ceil($cou/$rows_per_page);
 
+            
             if ($pageno > $lastpage) {
             $pageno = $lastpage;
             } 
@@ -77,6 +78,15 @@
             }
             echo "<a href='{$_SERVER['PHP_SELF']}?pageno={$lastpage}'>&raquo;</a>";
             $limit = 'LIMIT ' .($pageno - 1) * $rows_per_page .',' .$rows_per_page;
+
+                $all = 0;
+                $sqlall = "SELECT `skins`.`price` FROM `user_skins` RIGHT JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `user_id`='{$user[0]}'";
+                $myrowall = mysqli_query($dbc,$sqlall);
+                while($row = $myrowall->fetch_row()){
+                    $all=$all+$row[0];
+                }
+                echo "<button id='sellall' onclick='sellall(".json_encode($all).")'>Sprzedaj wszystko wartość {$all} PLN</button>";
+            
         }
 ?>
 </div>
@@ -95,7 +105,7 @@
                     <div class="skin" style="width: 250px; height: 250px; margin-top: 20px; margin-left: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; {$check}">
                         <div class="sellorwithdraw">
                         <span style="color: #fff;">{$skin['name']}</span>
-                                <button onclick="myf({$skin['id']})">Sprzedaj</button>
+                                <button id="sell" onclick="myf({$skin['id']})">Sprzedaj</button>
                             </div>
                             <div class="imagess" style="background-image: url('skins/{$skin['image']}.png');">
                            
@@ -104,6 +114,7 @@
                     </div>
                 END;
             }
+            
         }
         else{
             echo "Nie posiadasz żadnych skinów!";
@@ -116,8 +127,17 @@
     <script>
         $(function(){
             $("body").css("background-image","repeat");
-            $("div.container").css("background-color","#fff");
+            $("div.container").css("background-color","#E8E8E8");
         });
+
+        function sellall(all){
+            $.post("equall.php",{
+                            equall: all,
+                            user_id: <?php echo json_encode($user[0]);?>
+                        },function(data,status){
+                            $('div.accountinfo').append(data);
+                        }); 
+        }
 
         function myf(id){
             $.post("equsell.php",{

@@ -29,6 +29,7 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
         header("Location:index.php");
     }
     $row = mysqli_fetch_row($case)
+
     ?>
     <title>SKIN-KING | <?php echo $row[1]; ?></title>
 
@@ -41,7 +42,7 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
             <div class="key">
                 <img src="cases/<?php echo $row[2]; ?>.png" alt="<?php echo $row[1] ?>">
             </div>
-            <hr class="perpendicular-line">
+            <hr class="perpendicular-line" style="">
             <div class="open">
                 <span style="font-family: Montserrat,sans-serif; color: #4ead78; font-size: 35px; text-transform: capitalize; font-weight: 800; margin: 0 0 25px;"><?php echo $row[1]; ?></span>
 
