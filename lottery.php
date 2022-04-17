@@ -51,7 +51,7 @@
     <?php footer(); ?>
     <script>
          $(function(){
-            $("div.container").css({"background-color":"#fff"});
+            $("div.container").css({"background-color":"#d4d4d4"});
 
             $('#draw').click(function(){
                 $.post("draw.php",{

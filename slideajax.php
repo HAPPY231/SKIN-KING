@@ -1,7 +1,7 @@
 <?php 
 include("connect.php");
 include("include.php");
- $sql = "SELECT `user_skins`.`id`,`user_skins`.`user_id`,`user_skins`.`skin_id`,`user`.`login`,`skins`.`name`,`skins`.`image`,`skins`.`type`,`skins`.`price`,`skins`.`Container Odds` FROM `user_skins` INNER JOIN `user` ON `user_skins`.`user_id`=`user`.`id` INNER JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `skins`.`price`>2 ORDER BY rand() LIMIT 1";
+ $sql = "SELECT `logi`.`id`,`logi`.`user_id`,`logi`.`skin_id`,`user`.`login`,`skins`.`name`,`skins`.`image`,`skins`.`type`,`skins`.`price`,`skins`.`Container Odds` FROM `logi` INNER JOIN `user` ON `logi`.`user_id`=`user`.`id` INNER JOIN `skins` ON `logi`.`skin_id`=`skins`.`id` WHERE `skins`.`price`>2 ORDER BY rand() LIMIT 1";
  $mysql = mysqli_query($dbc, $sql);
  $assocmydsql = mysqli_fetch_all($mysql,MYSQLI_ASSOC);
  foreach($assocmydsql as $a){

@@ -2,6 +2,7 @@
 session_start();
 include("include.php");
 include("connect.php");
+include_once("clasess/skin.php");
 
 $_SESSION['case'] = $_GET['case_id']; 
 if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
@@ -92,6 +93,7 @@ unset($_SESSION['skin_sell']);
 
                         $.post("open.php",{
                             case_id: <?php echo json_encode($row[0]); ?>,
+                            case_value: <?php echo json_encode($row[3]); ?>,
                             user_id: <?php echo json_encode($user[0]); ?>
                         },function(data,status){
                             $('div.keys').html(data);

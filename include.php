@@ -14,14 +14,12 @@ END;
 
 function navigation()
 {
-    if(@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod'] && isset($_POST['loguot'])){
-
-            
-        setcookie('zalogowany', null, time() - 3600); 
-        setcookie('user', null, time() - 3600); 
-        setcookie('email', null, time() - 3600);
-        setcookie('checksum', null, time() - 3600);
-        setcookie('login_dod', null, time() - 3600); 
+    if(@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod'] && isset($_POST['loguot'])){    
+    setcookie('zalogowany', null, time() - 3600); 
+    setcookie('user', null, time() - 3600); 
+    setcookie('email', null, time() - 3600);
+    setcookie('checksum', null, time() - 3600);
+    setcookie('login_dod', null, time() - 3600); 
     unset($_POST['loguot']);
     header("Location:index.php");
 }
@@ -68,7 +66,7 @@ echo<<<end
     <a href="equipment.php">Ekwipunek</a><br>
     <a href="settings.php">Ustawienia</a><br>
 end;
-    if($row[2]==1){
+    if($row[2]==true){
         echo "<a href='admin.php'>Administracja</a>";
     }
 echo<<<end
@@ -102,7 +100,7 @@ function footer()
 echo<<<END
     <footer>
         <div class="mx-auto w-75 d-flex box">
-            <div style="margin-top:160px; width:100%; display: flex">
+            <div class="boxo" style="margin-top:160px; width:100%; display: flex">
                 <div class="mx-auto in-box1">
                 <img class="logo" src="images/Skin-King.jpg" width="100%" style="min-width:120px;" alt="logo">
                 </div>
@@ -132,6 +130,44 @@ echo<<<END
             </div>
         </div>
     </footer>
+
+    <script>
+        
+  $(function(){
+    if($(window).width() < 850) {
+        $(".boxo").css({"flex-direction":"column","margin-top":"100px"});
+        $(".in-box2").css("padding-left","0px");
+        $(".in-box1").css("width","100%");
+    }
+    if($(window).width() < 450) {
+        $("footer").css("height","auto");
+        $(".in-box2").css({"flex-direction":"column","text-align":"center","width":"100%"});
+        
+    }
+    });
+
+    $(window).resize(function() {
+        if ($(window).width() < 850) {
+            $(".boxo").css({"flex-direction":"column","margin-top":"100px"});
+            $(".in-box2").css("padding-left","0px");
+            $(".in-box1").css("width","100%");
+    }
+    if($(window).width() > 450){
+        $("footer").css("height","450px");
+        $(".in-box2").css({"flex-direction":"row","text-align":"left","width":"40%"});
+    }
+    if($(window).width() < 450){
+        $("footer").css("height","auto");
+        $(".in-box2").css({"flex-direction":"column","text-align":"center","width":"100%"});
+
+    }
+    if ($(window).width() > 850) {
+        $(".boxo").css({"flex-direction":"row","margin-top":"160px"});
+        $(".in-box2").css("padding-left","170px");
+        $(".in-box1").css("width","25%");
+    }
+    });
+    </script>
 END;
 }
 
