@@ -146,12 +146,12 @@ echo<<<END
     }
     });
 
-    $(window).resize(function() {
+$(window).resize(function() {
         if ($(window).width() < 850) {
             $(".boxo").css({"flex-direction":"column","margin-top":"100px"});
             $(".in-box2").css("padding-left","0px");
             $(".in-box1").css("width","100%");
-    }
+        }
     if($(window).width() > 450){
         $("footer").css("height","450px");
         $(".in-box2").css({"flex-direction":"row","text-align":"left","width":"40%"});
@@ -166,7 +166,7 @@ echo<<<END
         $(".in-box2").css("padding-left","170px");
         $(".in-box1").css("width","25%");
     }
-    });
+});
     </script>
 END;
 }

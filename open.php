@@ -89,7 +89,7 @@ if($expmax==$row_user[3]){
 }
 
 $check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
-echo "<hr class='perpendicular-line' style='width: 3px; height: 212px; transform: translate(33px, -21px);background-color: black; position: absolute; z-index: 3;'>";
+echo "<hr class='perpendicularr-line' style='width: 3px; height: 212px; transform: translate(33px, -21px);background-color: black; position: absolute; z-index: 3;'>";
         echo "<ul class='gallery'>";
         //$skinsra = "SELECT * FROM `skins_in_cases` right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY rand()";
         //$dawra = mysqli_query($dbc, $skinsra);
@@ -154,7 +154,10 @@ echo<<<END
         let url = "'skins/"+image+".png'";
         $('li#account').html(user+": "+account+"PLN <div class='dropdown-content'><a href='equipment.php'>Poziom: "+level+"</a><hr class='mx-auto horizontal-line' style='margin-top: 1px; margin-bottom: 9px;'><a href='lottery.php'>Losowanie</a><br><a href='equipment.php'>Ekwipunek</a><br><a href='settings.php'>Ustawienia</a><form method='POST'><input type='submit' id='sell' name='loguot'  value='Wyloguj się'></form></div>"); 
         $('li#substraction').html("-"+case_price+"PLN"); 
-        $('li#substraction').css({"opacity":"1","transform":"translate(0px,40px)"}); 
+        $('li#substraction').css({"opacity":"1","transform":"translate(0px,40px)"});
+        if(admin==true){
+            $('div.dropdown-content a:last').after("<br><a href='admin.php'>Administracja</a><br>");
+        }
         setTimeout(function(){
             $('li#substraction').css({'opacity':'0','transform':'translate(0px,-30px)'}); 
         },2000);
@@ -168,10 +171,8 @@ echo<<<END
 
         setTimeout(function(){
             $('div.keys').css({"text-align":"center","justify-content":"space-between","padding":"30px"});
-            $('div.keys').html("<div class='mx-auto' style='width:70%; display: flex;'><div class='skin' style='width: 250px; height: 250px; margin-top: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; align-content: flex-end {$check}'> <img src='skins/"+image+".png' style='width: 250px;height:250px;'></div><br><hr class='perpendicular-line' style='width:200px;transform: translateY(120px) rotate(90deg);'><div style='width: 50%;height:200px;justify-content: space-between;margin-top: 40px;'><span style='font-size: 30px;text-transform: uppercase; font-weight: 700;'>"+name+"</span><br><span>Cena: "+price+"PLN</span><br><span>Stan: "+state+"</span><div class='d-flex' style='width: 100%;margin-top: 25px;justify-content: space-between;align-items: center; align-content: center;'><button id='sell'>Sprzedaj</button><button id='again'>Zostaw</button></div></div></div></div>");
-            if(admin==true){
-                $('div.dropdown-content').append("<a href='admin.php'>Administracja</a><br>");
-            }
+            $('div.keys').html("<div class='mx-auto winner' style='width:70%; display: flex;'><div class='skin' style='width: 250px; height: 250px; margin-top: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; align-content: flex-end {$check}'> <img src='skins/"+image+".png' style='width: 250px;height:250px;'></div><br><hr class='perpendicular-line' style='width:200px;transform: translateY(120px) rotate(90deg);'><div class='infos' style='width: 50%;height:200px;justify-content: space-between;margin-top: 40px;'><span style='font-size: 30px;text-transform: uppercase; font-weight: 700;'>"+name+"</span><br><span>Cena: "+price+"PLN</span><br><span>Stan: "+state+"</span><div class='d-flex' style='width: 100%;margin-top: 25px;justify-content: space-between;align-items: center; align-content: center;'><button id='sell'>Sprzedaj</button><button id='again'>Zostaw</button></div></div></div></div>");
+            cff();
             $('button#sell').click(function(){
                 $.post("sell.php",{
                     skin_id: skin_id,

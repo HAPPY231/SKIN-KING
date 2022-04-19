@@ -85,26 +85,81 @@ unset($_SESSION['skin_sell']);
     }
 
 ?>
-            <script>
-              $(function(){
+    <script>
+        $(function(){
+             
+            $('button#open').click(function(){
+                $('div.keys').empty();
 
-                    $('button#open').click(function(){
-                        $('div.keys').empty();
+                $.post("open.php",{
+                    case_id: <?php echo json_encode($row[0]); ?>,
+                    case_value: <?php echo json_encode($row[3]); ?>,
+                    user_id: <?php echo json_encode($user[0]); ?>
+                },function(data,status){
+                    $('div.keys').html(data);
+                });
+            });
 
-                        $.post("open.php",{
-                            case_id: <?php echo json_encode($row[0]); ?>,
-                            case_value: <?php echo json_encode($row[3]); ?>,
-                            user_id: <?php echo json_encode($user[0]); ?>
-                        },function(data,status){
-                            $('div.keys').html(data);
-                        });
-                    });
+            if($(window).width() < 770) {
+                $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
+                $(".keys").css({"flex-direction":"column","align-items":"center"});
+                $(".open").css({"width":"100%","align-content":"center"});
+                $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
+                $(".infos").css("width","100%");
 
-                   
-              });
-                  
+            }
 
-            </script>
+            $(window).resize(function() {
+                if($(window).width() < 770) {
+                    $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
+                    $(".keys").css("flex-direction","column");
+                    $(".open").css({"width":"100%","align-content":"center"});
+                    $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
+                    $(".infos").css("width","100%");
+                }
+                else{
+                    $(".perpendicular-line").css({"width":"20%","transform":"rotate(90deg)","margin-left":"0","margin-right":"0"});
+                    $(".keys").css("flex-direction","row");
+                    $(".open").css({"width":"35%","align-content":"flex-start"});
+                    $(".winner").css({"width":"70%","flex-direction":"row","align-items":"center"});
+                    $(".infos").css("width","50%");
+                }
+            });
+            
+        });
+
+        function cff(){
+  
+             if($(window).width() < 770) {
+                $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
+                $(".keys").css({"flex-direction":"column","align-items":"center"});
+                $(".open").css({"width":"100%","align-content":"center"});
+                $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
+                $(".infos").css("width","100%");
+ 
+             }
+ 
+             $(window).resize(function() {
+                if($(window).width() < 770) {
+                $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
+                $(".keys").css("flex-direction","column");
+                $(".open").css({"width":"100%","align-content":"center"});
+                $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
+                $(".infos").css("width","100%");
+                }
+                else{
+                $(".perpendicular-line").css({"width":"20%","transform":"rotate(90deg)","margin-left":"0","margin-right":"0"});
+                $(".keys").css("flex-direction","row");
+                $(".open").css({"width":"35%","align-content":"flex-start"});
+                $(".winner").css({"width":"70%","flex-direction":"row","align-items":"center"});
+                $(".infos").css("width","50%");
+                }
+             });
+             
+         };
+            
+
+    </script>
             </div>
        
             <div class="mx-auto skins">

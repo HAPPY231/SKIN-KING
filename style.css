@@ -434,7 +434,8 @@ header #sell:hover{
     outline: none;
 }
 .chart{
-    width: 60%;
+    width: 50%;
+    min-width: 600px;
     height: 750px;
     margin: 0px auto 0px auto;
 }
