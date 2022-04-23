@@ -19,13 +19,11 @@
 
 	if (isset($_POST['email']))
 	{
-		//Udana walidacja? Załóżmy, że tak!
+
 		$wszystko_OK=true;
 		
-		//Sprawdź poprawność nickname'a
 		$nick = $_POST['login'];
 		
-		//Sprawdzenie długości nicka
 		if ((strlen($nick)<3) || (strlen($nick)>30))
 		{
 			$wszystko_OK=false;
@@ -55,7 +53,7 @@ echo<<<END
 			</script>
 
 END;
-			$_SESSION['e_loginn']="<center>Nick może składać się tylko z liter i cyfr </br>(bez polskich znaków)</center>";
+			$_SESSION['e_loginn']="Nick może składać się tylko z liter i cyfr (bez polskich znaków)";
 		}
 		
 		// Sprawdź poprawność adresu email
@@ -75,7 +73,7 @@ END;
 			</script>
 
 END;
-			$_SESSION['e_emaill']="<center>Podaj poprawny adres e-mail!</center>";
+			$_SESSION['e_emaill']="Podaj poprawny adres e-mail!";
 		}
 		
 	
@@ -91,29 +89,29 @@ END;
 		
 			<script>
 			$(function(){
-				$(".haslo1").css({"border-color":"#F90716","border-weight":"1px","border-style":"solid"});
-
-			});
-			</script>
-
-END;
-			$_SESSION['e_haslo']="<center>Hasło musi posiadać</br> od 8 do 30 znaków!</center>";
-		}
-		
-		if ($haslo1!=$haslo2)
-		{
-			$wszystko_OK=false;
-			echo<<<END
-		
-			<script>
-			$(function(){
 				$("#haslo1").css({"border-color":"#F90716","border-weight":"1px","border-style":"solid"});
 
 			});
 			</script>
 
 END;
-			$_SESSION['e_haslo']="<center>Podane hasła nie są identyczne!</center>";
+			$_SESSION['e_haslo']="Hasło musi posiadać od 8 do 30 znaków!";
+		}
+		
+		if ($haslo1!=$haslo2)
+		{
+			$wszystko_OK=false;
+echo<<<END
+		
+			<script>
+			$(function(){
+				$("#haslo1").css({"border-color":"#F90716","border-weight":"1px","border-style":"solid"});
+				$("#haslo2").css({"border-color":"#F90716","border-weight":"1px","border-style":"solid"});
+			});
+			</script>
+
+END;
+			$_SESSION['e_haslo']="Podane hasła nie są identyczne!";
 		}	
 
 		$haslo_hash = password_hash($haslo1, PASSWORD_DEFAULT);
@@ -125,7 +123,22 @@ END;
 		$_SESSION['e_email'] = $email;
 		$_SESSION['e_haslo1'] = $haslo1;
 		$_SESSION['e_haslo2'] = $haslo2;
-		if (isset($_POST['regulamin'])) $_SESSION['e_regulamin'] = true;
+		if (isset($_POST['regulamin'])){
+			$_SESSION['e_regulamin'] = false;
+		}
+		else{
+
+echo<<<END
+		
+			<script>
+			$(function(){
+				$(".form-check-label").css("color","#F90716");
+				
+			});
+			</script>
+
+END;
+			$wszystko_OK=false;}
 		
 		require_once "connect.php";
 		mysqli_report(MYSQLI_REPORT_STRICT);
@@ -158,7 +171,7 @@ echo<<<END
 					</script>
 		
 END;
-					$_SESSION['e_emaill']="<center>Istnieje już konto przypisane do tego adresu e-mail!</center>";
+					$_SESSION['e_emaill']="Istnieje już konto przypisane do tego adresu e-mail!";
 				}		
 
 				//Czy nick jest już zarezerwowany?
@@ -180,7 +193,7 @@ echo<<<END
 					</script>
 		
 END;
-					$_SESSION['e_loginn']="</center>Istnieje już gracz o takim nicku! Wybierz inny.</center>";
+					$_SESSION['e_loginn']="Istnieje już gracz o takim nicku! Wybierz inny.";
 				}
 				
 				if ($wszystko_OK==true)
@@ -196,6 +209,7 @@ END;
 						unset($_SESSION['e_haslo1']);
 						unset($_SESSION['e_haslo2']);
 						header('Location: index.php');
+						exit();
 					}
 					else
 					{
@@ -217,18 +231,6 @@ END;
 	
 	
 ?>
-	<script>
-		$(function(){
-			if($(".Zalog").height() > 800) {
-			$(".Zalog").css("padding-top","100px");
-			}
-			else{
-				$(".Zalog").css("padding-top","50px");
-			}
-		});
-
-		
-	</script>
 		
 </head>
 <body>
@@ -237,75 +239,64 @@ END;
    ?>
     <div class="container">
         <div class="Zalog">
-<form method="post">
-<div class="halo">
-<div class="loha">
-<center>Login:</center>  <center><input type="text" name="login" id="login" /></center><br />
-		
-		<?php
+		<form method="post">
+		<div class="form-group">
+    <label for="login">Login</label>
+    <input type="text" class="form-control" id="login" name="login" placeholder="Wpisz Login">
+	<small id="emailHelp" class="form-text text-muted">Musi zawierać od 3 do 30 znaków.</small>
+	<?php
 			if (isset($_SESSION['e_loginn']))
 			{
 				echo '<div class="error">'.$_SESSION['e_loginn'].'</div>';
 				unset($_SESSION['e_loginn']);
-				echo "</br>";
 			}
 			
-		?>
-		
-		<center>E-mail:</center>  <center><input type="text" name="email" id="email" /></center><br />
-		
-		<?php
+	?>
+  </div>
+  <div class="form-group">
+    <label for="email">E-mail</label>
+    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Wpisz Email">
+    <small id="emailHelp" class="form-text text-muted">Nigdy nie podamy komuś twojego adresu e-mail.</small>
+	<?php
 			if (isset($_SESSION['e_emaill']))
 			{
 				echo '<div class="error">'.$_SESSION['e_emaill'].'</div>';
 				unset($_SESSION['e_emaill']);
 			}
 		?>
-		
-		<center>Twoje hasło:</center>  <center><input type="password"  name="haslo1" class="haslo1"/></center><br />
-		
-		<?php
+
+  </div>
+  <div class="form-group">
+    <label for="haslo1">Hasło</label>
+    <input type="password" class="form-control" id="haslo1" name="haslo1" placeholder="Wpisz hasło">
+	<small id="emailHelp" class="form-text text-muted">Musi zawierać od 8 do 30 znaków.</small>
+	<?php
 			if (isset($_SESSION['e_haslo']))
 			{
 				echo '<div class="error">'.$_SESSION['e_haslo'].'</div>';
 				unset($_SESSION['e_haslo']);
 			}
-		?>		
-		
-		<center>Powtórz hasło:</center> <center><input type="password"  name="haslo2" class="haslo1"/></center><br />
-</div>		
+		?>
+  </div>
+  <div class="form-group">
+    <label for="haslo2">Powtórz hasło</label>
+    <input type="password" class="form-control" id="haslo2" name="haslo2" placeholder="Powtórz hasło">
+  </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="regulamin">
+    <label class="form-check-label" for="exampleCheck1">Potwierdź regulamin</label>
 
-	</div>
-	<center><div class="regulav">
-	<label>
-			<input type="checkbox" name="regulamin" <?php
-			if (isset($_SESSION['e_regulamin']))
-			{
-				echo "checked";
-				unset($_SESSION['e_regulamin']);
-			}
-				?>/>       Akceptuję regulamin
-		</label></center>
-		
-		<?php
-			if (isset($_SESSION['e_regulamin']))
-			{
-				echo '<div class="error">'.$_SESSION['e_regulamin'].'</div>';
-				unset($_SESSION['e_regulamin']);
-			}
-		?>	
-		</div>
-		<br />
-		<center><input type="submit" value="Zarejestruj się" /></center>
-			
-    </form>
+  </div>
+  <button type="submit" class="btn btn-primary" value="Zarejestruj się">Zarejestruj się</button>
+</form>
+
 
     </div>
     </div>
 	<?php footer(); ?>
 	<script>
         $(function(){
-            $("div.container").css({"position":"sticky","background-color":"#949494"});
+            $("div.container").css({"position":"sticky","background-color":"rgb(232 232 232)"});
         });
     </script>
 </body>

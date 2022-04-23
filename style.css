@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
 body {
@@ -62,8 +61,8 @@ footer{
     padding: 0px 20px;
 }
 
-.nav_links li a {
-    transition: all 0.3s ease;
+.nav_links li{
+    transition: all 0.5s ease;
 }
 
 .nav_links li:hover {
@@ -149,6 +148,13 @@ footer{
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, 1px) rotate(-1deg); }
   }
+
+.Zalog{
+    width: 50%;
+    margin-left:auto;
+    margin-right:auto;
+    padding-top: 50px;
+}
 .inside{
     width: 100%;
     background-color: hsl(0, 0%, 14%);
@@ -233,8 +239,10 @@ footer{
 
     border-color: #1A85FD;
 }
+
 .open{
     width: 35%;
+    text-align:center;
     text-align:center;
     display: flex;
     flex-direction: column;
@@ -246,12 +254,19 @@ footer{
 #open{
     text-transform:capitalize;
 }
+
+.open a{
+    transition: all 1s easy-in-out;
+}
+.open a:hover{
+    color: #057393;
+}
+
 .skins{
     width: 95%;
     background-color: #e8e8e8;
     flex-wrap: wrap;
 }
-
 
 .skinbox{
     padding:20px;
@@ -321,13 +336,11 @@ footer{
     transition: background-color .3s;
   }
   
-  /* Style the active/current link */
   .pagination a.active {
     background-color: dodgerblue;
     color: white;
   }
-  
-  /* Add a grey background color on mouse-over */
+
   .pagination a:hover:not(.active) {background-color: #ddd;}
 
 .gallery{

@@ -18,11 +18,17 @@
 <?php navigation(); ?>
 <div class="container">
     <div class="mx-auto log" style="width: 30%;">
-        <form action="web.php" method="POST" style="width: 30%;">
-            Login: <input type="text" id="loign" name="login"/><br>
-            Hasło: <input type="password" id="haslo" name="haslo"/><br><br>
-            <input type="submit" value="Zaloguj się">
-        </form>
+        <form action="web.php" method="POST">
+  <div class="form-group">
+    <label for="loign">Email address</label>
+    <input type="text" class="form-control" id="loign" name="login" aria-describedby="emailHelp" placeholder="Wpisz login">
+  </div>
+  <div class="form-group">
+    <label for="haslo">Hasło</label>
+    <input type="password" class="form-control" id="haslo" name="haslo" placeholder="Password">
+  </div>
+  <button type="submit" class="btn mt-2 btn-primary" value="Zaloguj się">Zaloguj się</button>
+</form>
 <?php 
     if(isset($_SESSION['blad'])){
     echo $_SESSION['blad'];
@@ -33,7 +39,7 @@
 <?php footer(); ?>
     <script>
         $(function(){
-            $("div.container").css({"position":"sticky","background-color":"#949494"});
+            $("div.container").css({"position":"sticky","background-color":"rgb(232 232 232)"});
         });
     </script>
 </body>

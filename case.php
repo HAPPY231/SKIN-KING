@@ -43,7 +43,7 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
             <div class="key">
                 <img src="cases/<?php echo $row[2]; ?>.png" alt="<?php echo $row[1] ?>">
             </div>
-            <hr class="perpendicular-line" style="">
+            <hr class="perpendicular-line">
             <div class="open">
                 <span style="font-family: Montserrat,sans-serif; color: #4ead78; font-size: 35px; text-transform: capitalize; font-weight: 800; margin: 0 0 25px;"><?php echo $row[1]; ?></span>
 
@@ -58,9 +58,9 @@ echo<<<END
 END;
 }
 else if((@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) && $user[4]<$row[3]){
-    echo "Doładuj konto!";
+    echo "<a href='lottery.php'>Doładuj konto!</a>";
 }
-else{echo "Zaloguj się!";}
+else{echo "<a href='logowanie.php'>Zaloguj się aby otworzyć tą skrzynkę!</a>";}
 ?>
 
             </div>
