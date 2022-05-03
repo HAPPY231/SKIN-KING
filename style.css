@@ -48,6 +48,7 @@ footer{
 }
 
 .logo {
+
     cursor: pointer;
 }
 
@@ -198,6 +199,16 @@ footer{
 .name{
     font-weight: 700;
 }
+.box{
+    width: 75%;
+    margin: 0px auto 0px auto;
+    display: flex;
+}
+.boxo{
+    margin-top: 160px;
+    width: 100%;
+    display: flex;
+}
 .keys{
     width: 95%;
     height: auto;
@@ -236,10 +247,31 @@ footer{
 .horizontal-line {
     width: 90%;
     margin-top:0;
-
     border-color: #1A85FD;
 }
+@media screen and (max-width: 850px){
+    .boxo{
+        flex-direction: column !important;
+        margin-top: 100px !important;
+    }
+    .in-box2{
+        padding-left: 0px !important;
+    }
+    .in-box1{
+        width: 100% !important;
+    }
+}
+@media screen and (max-width: 450px){
+    footer{
+        height: auto !important;
+    }
+    .in-box2{
+        flex-direction: column !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
 
+}
 .open{
     width: 35%;
     text-align:center;
@@ -296,9 +328,12 @@ footer{
 }
 .in-box1{
     width:25%;
+    margin: 0px auto 0px auto;
 }
 .in-box2{
-    width:50%;
+    width:40%;
+    display: flex;
+    margin: 0px auto 0px auto;
     justify-content: space-around;
     padding-left: 170px;
     padding-bottom: 30px;

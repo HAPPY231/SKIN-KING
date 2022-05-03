@@ -21,7 +21,6 @@ if (isset($_POST['login']) && isset($_POST['haslo'])) {
                 if (password_verify($haslo, $wiersz['password'])) {
                     
                     $cps = md5("cossawdawsdodatae", FALSE);
-                    setcookie('zalogowany', 1, time()+60*60*24*90); 
                     setcookie('user', $wiersz['login'], time()+60*60*24*90); 
                     setcookie('email', $wiersz['email'], time()+60*60*24*90); 
                     setcookie('login_dod', $cps, time()+60*60*24*90); 

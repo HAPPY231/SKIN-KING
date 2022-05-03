@@ -9,13 +9,14 @@ echo<<<END
   <link rel="stylesheet" href="style.css">
   <script type="text/javascript" src="java.js"></script>
   <link rel="icon" href="images/rifle.png">
+  <meta name="description" content="Najlepsze i najrzadsze skiny na wyciągnięcie ręki! Oto miejsce, gdzie możesz wypróbować swoje szczęście!" />
+  <meta name="keywords" content="csgo skins,csgo,best csgo skins,skins,cs:go,cheap csgo skins,csgo skins 2020,free csgo skins,best cheap csgo skins,skins csgo,csgo investing,csgo skins for beginners,skins de csgo,csgo skins cheap,csgo free skins,rare csgo skins,csgo skins free,melhores skins csgo,csgo how to get skins,csgo skins explained,csgo inventory,csgo how to trade skins,csgo profit,csgo skins to invest in 2021,cs go skins" />
 END;
 }
 
 function navigation()
 {
     if(@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod'] && isset($_POST['loguot'])){    
-    setcookie('zalogowany', null, time() - 3600); 
     setcookie('user', null, time() - 3600); 
     setcookie('email', null, time() - 3600);
     setcookie('checksum', null, time() - 3600);
@@ -99,12 +100,12 @@ function footer()
 {
 echo<<<END
     <footer>
-        <div class="mx-auto w-75 d-flex box">
-            <div class="boxo" style="margin-top:160px; width:100%; display: flex">
-                <div class="mx-auto in-box1">
+        <div class="box">
+            <div class="boxo">
+                <div class="in-box1">
                 <img class="logo" src="images/Skin-King.jpg" width="100%" style="min-width:120px;" alt="logo">
                 </div>
-                <div class="mx-auto w-40 d-flex in-box2">
+                <div class="in-box2">
                 <div class="s">
                 <span class="pan">Skiny</span>
                     <a href="#"> <span class="pod">Ekwipunek</span></a>
@@ -131,43 +132,7 @@ echo<<<END
         </div>
     </footer>
 
-    <script>
-        
-  $(function(){
-    if($(window).width() < 850) {
-        $(".boxo").css({"flex-direction":"column","margin-top":"100px"});
-        $(".in-box2").css("padding-left","0px");
-        $(".in-box1").css("width","100%");
-    }
-    if($(window).width() < 450) {
-        $("footer").css("height","auto");
-        $(".in-box2").css({"flex-direction":"column","text-align":"center","width":"100%"});
-        
-    }
-    });
-
-$(window).resize(function() {
-        if ($(window).width() < 850) {
-            $(".boxo").css({"flex-direction":"column","margin-top":"100px"});
-            $(".in-box2").css("padding-left","0px");
-            $(".in-box1").css("width","100%");
-        }
-    if($(window).width() > 450){
-        $("footer").css("height","450px");
-        $(".in-box2").css({"flex-direction":"row","text-align":"left","width":"40%"});
-    }
-    if($(window).width() < 450){
-        $("footer").css("height","auto");
-        $(".in-box2").css({"flex-direction":"column","text-align":"center","width":"100%"});
-
-    }
-    if ($(window).width() > 850) {
-        $(".boxo").css({"flex-direction":"row","margin-top":"160px"});
-        $(".in-box2").css("padding-left","170px");
-        $(".in-box1").css("width","25%");
-    }
-});
-    </script>
+   
 END;
 }
 
