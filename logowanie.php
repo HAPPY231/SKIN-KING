@@ -1,6 +1,3 @@
-<?php
-    session_start();
-?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -8,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php
-    include("include.php");
+    include("controllers/controller.php");
     head();
-    include("connect.php");
+
     ?>
     <title>Logowanie</title>
 </head>
 <body>
 <?php navigation(); ?>
 <div class="container">
-    <div class="mx-auto log" style="width: 30%;">
-        <form action="web.php" method="POST">
+    <div class="mx-auto text-center log" style="width: 30%;">
+        <h1>Zaloguj się</h1>
+        <form action="web.php" method="POST" id="logging">
   <div class="form-group">
     <label for="loign">Email address</label>
     <input type="text" class="form-control" id="loign" name="login" aria-describedby="emailHelp" placeholder="Wpisz login">

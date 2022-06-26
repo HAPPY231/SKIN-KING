@@ -1,8 +1,3 @@
-<?php
-    session_start();
-  
-
-?>
 <!doctype html>
 <html lang="pl">
 <head>
@@ -10,7 +5,12 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <?php include("include.php"); head(); ?>
+    <?php
+    include("controllers/controller.php");
+    head();
+
+    ?>
+
     <title>SKIN-KING</title>
 </head>
 <body>
@@ -28,7 +28,7 @@
         <article>
             <div class="cases">
 <?php
-            include("connect.php");
+
             $sql = "SELECT * FROM cases";
             $res = mysqli_query($dbc,$sql);
             $cases = mysqli_fetch_all($res, MYSQLI_ASSOC);

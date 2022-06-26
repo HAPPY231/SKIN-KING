@@ -1,6 +1,10 @@
 <?php 
 include("connect.php");
 include("include.php");
+if(!isset($_POST['slide_i'])){
+    header("Location: index.php");
+}
+
  $sql = "SELECT `logi`.`id`,`logi`.`user_id`,`logi`.`skin_id`,`user`.`login`,`skins`.`name`,`skins`.`image`,`skins`.`type`,`skins`.`price`,`skins`.`Container Odds` FROM `logi` INNER JOIN `user` ON `logi`.`user_id`=`user`.`id` INNER JOIN `skins` ON `logi`.`skin_id`=`skins`.`id` WHERE `skins`.`price`>2 ORDER BY rand() LIMIT 1";
  $mysql = mysqli_query($dbc, $sql);
  $assocmydsql = mysqli_fetch_all($mysql,MYSQLI_ASSOC);
@@ -17,11 +21,11 @@ echo<<<END
         opacity: 1;
     }
 </style>
-<div id="skin{$_POST['slide_i']}" style="width: 230px; height: 230px; min-width:250px;min-height:250px; margin-top: 20px; margin-bottom: 20px;margin-left: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; background-color:#fff; {$check}">
+<div id="skin{$_POST['slide_i']}" class="skin_slider" style=" {$check}">
 <div class="sellorwithdraw">
-<span style="color: #fff;">{$a['name']}</span>
-<span style="color: #fff;">Wylosowany przez:</span>
-<span style="color: #fff;">{$a['login']}</span>
+<span>{$a['name']}</span>
+<span>Wylosowany przez:</span>
+<span>{$a['login']}</span>
     </div>
     <div class="mx-auto imagess" style="background-image: url('skins/{$a['image']}.png');">
    
@@ -36,9 +40,12 @@ echo "var i =".json_encode($_POST['slide_i']).";";
 echo<<<END
     $("#skin"+i).css("display","none");
 
-        $("#skin"+i).show(1000);
+    $("#skin"+i).fadeIn(1000);
   
 
 </script>
 END;
+
+unset($_POST['slide_i']);
+
  }

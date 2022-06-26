@@ -3,8 +3,8 @@
 body {
     font-size: 20px;
     margin: 0 !important;
-    font-family: 'Open Sans', sans-serif;
-    background-image: url('images/counter-strike-global-offensive-csgo_3840x2160_xtrafondos.com.jpg');
+    font-family: 'Montserrat', serif;
+    background-image: url('images/system/counter-strike-global-offensive-csgo_3840x2160_xtrafondos.com.jpg');
     overflow-x: hidden;
 }
 .container{
@@ -37,7 +37,7 @@ header{
     height: 280px;
     align-items: center;
     align-content: center;
-    background-image: url("images/get_image_large.jfif");
+    background-image: url("images/system/get_image_large.jfif");
 }
 
 footer{
@@ -60,6 +60,11 @@ footer{
     list-style: none;
     display: inline-block;
     padding: 0px 20px;
+}
+.nav_links li:first-child {
+    position: relative;
+    display:inline-block;
+    z-index: 1;
 }
 
 .nav_links li{
@@ -88,8 +93,7 @@ footer{
     align-items: flex-end;
     align-content: flex-end;
 }
-  .dropdown-content {
-    
+.dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -97,8 +101,9 @@ footer{
     -moz-box-shadow: 5px 7px 36px -7px rgba(66, 68, 90, 1);
     box-shadow: 5px 7px 36px -7px rgba(66, 68, 90, 1);
     padding: 12px 30px;
-    z-index: 1;
-  }
+    z-index: 2;
+    transform: translate(34px, 0px);
+}
   #account:hover .dropdown-content {
     display: block;
   }
@@ -155,6 +160,10 @@ footer{
     margin-left:auto;
     margin-right:auto;
     padding-top: 50px;
+    text-align: center;
+}
+#logging{
+    text-align:left !important;
 }
 .inside{
     width: 100%;
@@ -187,6 +196,34 @@ footer{
     background-size: 100% 100%;
     transition: all 0.3s ease;
 }
+.skin{
+    width: 250px;
+    height: 250px;
+    margin-top: 20px;
+    margin-left: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: flex-end;
+}
+.skin .image{
+    width: 200px;
+    height:190px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.skin span{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: flex-end;
+    margin-top: -31px !important;
+}
 .skin:hover .imagess{
     width: 190px;
     height: 180px;
@@ -195,7 +232,24 @@ footer{
     visibility: visible;
     opacity: 1;
 }
-
+.sellorwithdraw span{
+    color: #fff;
+}
+.skin_slider{
+    width: 230px;
+    height: 230px;
+    min-width:250px;
+    min-height:250px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color:#fff;
+}
 .name{
     font-weight: 700;
 }
@@ -203,6 +257,27 @@ footer{
     width: 75%;
     margin: 0px auto 0px auto;
     display: flex;
+}
+#registration{
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: left;
+}
+#registration input[type='text']{
+    width: 400px;
+}
+.error{
+    width: 400px;
+}
+#registration .form-group{
+    width: 400px !important;
+    margin: 5px !important;
+}
+#registration .form-check{
+    margin-bottom: 10px !important;
 }
 .boxo{
     margin-top: 160px;
@@ -248,6 +323,55 @@ footer{
     width: 90%;
     margin-top:0;
     border-color: #1A85FD;
+}
+.winner{
+    width:70%;
+    display: flex;
+}
+@media screen and (max-width: 1200px){
+    .avatar{
+        margin-bottom: 50px;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+    }
+    .info{
+        margin-top: 20px;
+    }
+}
+@media screen and (max-width: 770px){
+    .perpendicular-line {
+        width: 70% !important;
+        transform: rotate(0deg) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+    .keys{
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+    .open{
+        width: 100% !important;
+        align-content: center !important;
+    }
+    .winner{
+        width: 100% !important;
+        flex-direction: column !important;
+        align-content: center !important;
+    }
+    .infos{
+        width: 100% !important;
+    }
+    .twoforms{
+        flex-direction: column !important;
+    }
+    .twoforms form{
+        margin-bottom: 20px !important;
+    }
+    .twoforms input[type='text'],input[type='email']{
+        width: 100% !important;
+    }
 }
 @media screen and (max-width: 850px){
     .boxo{
@@ -322,7 +446,7 @@ footer{
 #sella{
     color: green;
     opacity: 0;
-    transform: translateY(-50px);   
+    transform: translateY(-50px);
     transition: all 0.5s ease-in-out;
     
 }
@@ -331,7 +455,7 @@ footer{
     margin: 0px auto 0px auto;
 }
 .in-box2{
-    width:40%;
+    width:50%;
     display: flex;
     margin: 0px auto 0px auto;
     justify-content: space-around;
@@ -486,4 +610,67 @@ header #sell:hover{
     min-width: 600px;
     height: 750px;
     margin: 0px auto 0px auto;
+}
+.avatar{
+    width: 100%;
+    height: 550px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.avatar .image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.avatar .image form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+.avatar #blue,#green{
+    margin: 20px 0px 10px 0px;
+}
+.avatar #green{
+    display: none;
+}
+.avatar .account-settings-fileinput{
+    display: none;
+}
+.text-light {
+    color: #babbbc !important;
+}
+.info{
+    margin-top: -120px;
+}
+.infoschanges{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.infoschanges form{
+    text-align: left;
+}
+.infoschanges form input[type='text'],input[type='email']{
+    width: 400px;
+}
+.twoforms{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 20px 0px 10px 0px;
+}
+.infoschanges form button[type="submit"]{
+    margin: 10px 0px 10px 0px;
 }

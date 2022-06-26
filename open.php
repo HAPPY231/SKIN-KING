@@ -6,9 +6,9 @@ $user = $_POST['user_id'];
 
 $i = 0;
 $percentage = 0;
-include_once("connect.php");
-include_once("include.php");
+include("controllers/controller.php");
 include_once("clasess/skin.php");
+
 $skins = "SELECT * FROM `skins_in_cases`  right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY `skins`.`price` DESC";
 $daw = mysqli_query($dbc, $skins);
 $items = array();
@@ -70,30 +70,34 @@ $case_row = mysqli_fetch_row($case_query);
 
 $subtraction = "UPDATE user SET account_balance = account_balance-$case_row[0],experience=experience+$case_row[1] WHERE id='$_POST[user_id]'";
 $mysql = mysqli_query($dbc,$subtraction);
+$_SESSION['userr']->change_property("account_balance",$case_row[0],"subtraction");
+$_SESSION['userr']->change_property("exp",$case_row[1],"add");
 
-$user_account = "SELECT login,account_balance,level,experience,admin FROM user WHERE id='$_POST[user_id]'";
-$user_query = mysqli_query($dbc,$user_account);
-$row_user = mysqli_fetch_row($user_query);
+$expmax = ($_SESSION['userr']->get('level')*100)+200;
+if($expmax<$_SESSION['userr']->get('exp')){
+    $willstay = $expmax - $_SESSION['userr']->get('exp');
 
-$expmax = ($row_user[2]*100)+200;
-if($expmax<$row_user[3]){
-    $willstay = $expmax - $row_user[3];
     $levelup = "UPDATE `user` SET `level`=`level`+1,`experience`=(`experience`+{$case_row[1]})-`experience` WHERE `id`='$_POST[user_id]'";
     $levelupquery = mysqli_query($dbc,$levelup);
+
+    $_SESSION['userr']->change_property("level",1,"add");
+    $expstay = ($_SESSION['userr']->get('exp') + $case_row[1]) - $_SESSION['userr']->get('exp');
+    $_SESSION['userr']->change_property("exp",$expstay,"change");
 }
 
-if($expmax==$row_user[3]){
-    $willstay = $expmax - $row_user[3];
+if($expmax==$_SESSION['userr']->get('exp')){
+    $willstay = $expmax - $_SESSION['userr']->get('exp');
+
     $levelup = "UPDATE `user` SET `level`=`level`+1,`experience`=`experience`-`experience` WHERE `id`='$_POST[user_id]'";
     $levelupquery = mysqli_query($dbc,$levelup);
+
+    $_SESSION['userr']->change_property("level",1,"add");
+    $_SESSION['userr']->change_property("exp",$_SESSION['userr']->get('exp'),"subtraction");
 }
 
 $check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
 echo "<hr class='perpendicularr-line' style='width: 3px; height: 212px; transform: translate(33px, -21px);background-color: black; position: absolute; z-index: 3;'>";
         echo "<ul class='gallery'>";
-        //$skinsra = "SELECT * FROM `skins_in_cases` right join `skins` on `skins_in_cases`.`skin_id`=`skins`.`id` WHERE `skins_in_cases`.`case_id`={$case} ORDER BY rand()";
-        //$dawra = mysqli_query($dbc, $skinsra);
-        //$alla = mysqli_fetch_all($dawra,MYSQLI_ASSOC);
         $count = count($items)*4;
         
 
@@ -119,14 +123,14 @@ $x++;
         END;
 
         for($x=0; $x<count($items);){
-            $e = rand(0,7);
-            $name = ${$items[$e]}->getName();
-            $image = ${$items[$e]}->getImage();
-            $containerodd = ${$items[$e]}->getContainerOdd();
-            $check = check($containerodd,webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
+        $e = rand(0,7);
+        $name = ${$items[$e]}->getName();
+        $image = ${$items[$e]}->getImage();
+        $containerodd = ${$items[$e]}->getContainerOdd();
+        $check = check($containerodd,webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
 echo<<<end
                 
-                <li style=" {$check} background-image: url('skins/{$image}.png');">{$name}</li>
+        <li style=" {$check} background-image: url('skins/{$image}.png');">{$name}</li>
 end;
 $x++;
         }
@@ -134,6 +138,7 @@ $x++;
         echo "</ul>";
 
 $check = check($row[6],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
+$account_balance_round = round($_SESSION["userr"]->get('account_balance'),2);
 
 echo "<script>";
 echo "let tranid =".json_encode($tranrow[0]).";";
@@ -142,17 +147,19 @@ echo "let name =".json_encode($row[1]).";";
 echo "let price =".json_encode($row[4]).";";
 echo "let image =".json_encode($row[2]).";";
 echo "let state =".json_encode($row[5]).";";
-echo "let user =".json_encode($row_user[0]).";";
-echo "let account =".json_encode($row_user[1]).";";
-echo "let admin =".json_encode($row_user[4]).";";
+echo "let avatar =".json_encode($_SESSION["userr"]->get('avatar')).";";
+echo "let user =".json_encode($_SESSION["userr"]->get('login')).";";
+echo "let account =".json_encode($account_balance_round).";";
+echo "let admin =".json_encode($_SESSION["userr"]->get('admin')).";";
 echo "let case_price =".json_encode($case_row[0]).";";
-echo "let level =".json_encode($row_user[2]).";";
+echo "let level =".json_encode($_SESSION["userr"]->get('level')).";";
 
 echo<<<END
         let animationvalue = -30.5;
-
+        
+            
         let url = "'skins/"+image+".png'";
-        $('li#account').html(user+": "+account+"PLN <div class='dropdown-content'><a href='equipment.php'>Poziom: "+level+"</a><hr class='mx-auto horizontal-line' style='margin-top: 1px; margin-bottom: 9px;'><a href='lottery.php'>Losowanie</a><br><a href='equipment.php'>Ekwipunek</a><br><a href='settings.php'>Ustawienia</a><form method='POST'><input type='submit' id='sell' name='loguot'  value='Wyloguj się'></form></div>"); 
+        $('li#account').html("<img src='images/avatars/"+avatar+".png' alt='avatar' width='38' height='38' style='border-radius: 50%;'>&nbsp;"+user+":  "+account+"PLN <div class='dropdown-content'><a href='equipment.php'>Poziom: "+level+"</a><hr class='mx-auto horizontal-line' style='margin-top: 1px; margin-bottom: 9px;'><a href='lottery.php'>Losowanie</a><br><a href='equipment.php'>Ekwipunek</a><br><a href='settings.php'>Ustawienia</a><form method='POST'><input type='submit' id='sell' name='loguot'  value='Wyloguj się'></form></div>"); 
         $('li#substraction').html("-"+case_price+"PLN"); 
         $('li#substraction').css({"opacity":"1","transform":"translate(0px,40px)"});
         if(admin==true){
@@ -160,6 +167,7 @@ echo<<<END
         }
         setTimeout(function(){
             $('li#substraction').css({'opacity':'0','transform':'translate(0px,-30px)'}); 
+           
         },2000);
 
         $('.gallery').animate({  borderColapse: animationvalue }, {
@@ -168,11 +176,17 @@ echo<<<END
             },
             duration:'3000'
         },'linear');
-
+        let audio = {};
+        audio["opening"] = new Audio();
+        audio["opening"].src = "sounds/Opening_sound.mp3";
+        audio["opening"].volume = 0.2;
+        audio["opening"].play();
+        
         setTimeout(function(){
+            
             $('div.keys').css({"text-align":"center","justify-content":"space-between","padding":"30px"});
-            $('div.keys').html("<div class='mx-auto winner' style='width:70%; display: flex;'><div class='skin' style='width: 250px; height: 250px; margin-top: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; align-content: flex-end {$check}'> <img src='skins/"+image+".png' style='width: 250px;height:250px;'></div><br><hr class='perpendicular-line' style='width:200px;transform: translateY(120px) rotate(90deg);'><div class='infos' style='width: 50%;height:200px;justify-content: space-between;margin-top: 40px;'><span style='font-size: 30px;text-transform: uppercase; font-weight: 700;'>"+name+"</span><br><span>Cena: "+price+"PLN</span><br><span>Stan: "+state+"</span><div class='d-flex' style='width: 100%;margin-top: 25px;justify-content: space-between;align-items: center; align-content: center;'><button id='sell'>Sprzedaj</button><button id='again'>Zostaw</button></div></div></div></div>");
-            cff();
+            $('div.keys').html("<div class='mx-auto winner'><div class='skin' style='width: 250px; height: 250px; margin-top: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; align-content: flex-end {$check}'> <img src='skins/"+image+".png' style='width: 250px;height:250px;'></div><br><hr class='perpendicular-line' style='width:200px;transform: translateY(120px) rotate(90deg);'><div class='infos' style='width: 50%;height:200px;justify-content: space-between;margin-top: 40px;'><span style='font-size: 30px;text-transform: uppercase; font-weight: 700;'>"+name+"</span><br><span>Cena: "+price+"PLN</span><br><span>Stan: "+state+"</span><div class='d-flex' style='width: 100%;margin-top: 25px;justify-content: space-between;align-items: center; align-content: center;'><button id='sell'>Sprzedaj</button><button id='again'>Zostaw</button></div></div></div></div>");
+            
             $('button#sell').click(function(){
                 $.post("sell.php",{
                     skin_id: skin_id,

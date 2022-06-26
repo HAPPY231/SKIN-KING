@@ -16,5 +16,5 @@ function zarej()
 }
 function settin()
 {
-    window.location.href = "equipment.php";
+    window.location.href = "settings.php";
 }

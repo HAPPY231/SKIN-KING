@@ -1,24 +1,5 @@
-<?php 
-
-    session_start();
-    include("include.php");
-    include("connect.php");
-
-    if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
-        $users = "SELECT * FROM user WHERE login='$_COOKIE[user]'";
-        $get = mysqli_query($dbc,$users);
-        $user = mysqli_fetch_row($get);
-    }
-    else{
-        header("Location:index.php");
-    }
-
-    $expmax = ($user[5]*100)+200;
-    $count1 = $user[6] / $expmax;
-    $count2 = $count1 * 100;
-    $percentage = number_format($count2, 0);
-
-
+<?php
+include("controllers/controller.php");
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -27,17 +8,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php head(); ?>
-    <title>SKIN-KING | <?php echo $user[1]; ?></title>
+    <title>SKIN-KING | <?php echo $_SESSION['userr']->get("login"); ?></title>
 </head>
 <body>
     <?php navigation(); ?>
     <div class="container">
         <div class="mx-auto w-80 accountinfo">
-            <h1><?php echo $user[1].": ".$user[4]."PLN " ?></h1>
-            <?php echo "Poziom: ".$user[5];?>
-            <progress id="file" max="100" value="<?php echo $percentage;?>"> <?php echo $percentage;?>% </progress>
-            <?php echo $user[6]."/".$expmax;?>
-            
+            <h1><?php echo $_SESSION['userr']->get("login").": "
+                    .$_SESSION['userr']->get("account_balance")."PLN "
+                ?></h1>
+            <div class="level">
+            <?php echo "Poziom: ".$_SESSION['userr']->get("level");?>
+            <progress id="file" max="100" value="<?php echo $_SESSION['userr']->get("percentage");
+            ?>"> <?php
+                echo $_SESSION['userr']->get("percentage");?>% </progress>
+            <?php echo $_SESSION['userr']->get("exp")."/".$_SESSION['userr']->get("expmax");?>
+            </div>
         </div>
         <div class='mx-auto pagination'>
             <h3>TWÓJ EKWIPUNEK</h3>
@@ -56,7 +42,7 @@
                  }
             }
 
-            $count = "SELECT * FROM user_skins WHERE user_id={$user[0]}";
+            $count = "SELECT * FROM user_skins WHERE user_id={$_SESSION['userr']->get("identity")}";
             $myco = mysqli_query($dbc, $count);
             $cou = $myco->num_rows;
             if($cou>0){
@@ -80,7 +66,7 @@
             $limit = 'LIMIT ' .($pageno - 1) * $rows_per_page .',' .$rows_per_page;
 
                 $all = 0;
-                $sqlall = "SELECT `skins`.`price` FROM `user_skins` RIGHT JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `user_id`='{$user[0]}'";
+                $sqlall = "SELECT `skins`.`price` FROM `user_skins` RIGHT JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `user_id`={$_SESSION['userr']->get("identity")}";
                 $myrowall = mysqli_query($dbc,$sqlall);
                 while($row = $myrowall->fetch_row()){
                     $all=$all+$row[0];
@@ -94,7 +80,7 @@
 <div class="skinbox">
 <?php
         if($cou>0){
-            $sql = "SELECT `user_skins`.*,`skins`.`name`,`skins`.`image`,`skins`.`type`,`skins`.`price`,`skins`.`Container Odds` FROM `user_skins` RIGHT JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `user_id`='{$user[0]}' ORDER BY `skins`.`price` DESC {$limit}";
+            $sql = "SELECT `user_skins`.*,`skins`.`name`,`skins`.`image`,`skins`.`type`,`skins`.`price`,`skins`.`Container Odds` FROM `user_skins` RIGHT JOIN `skins` ON `user_skins`.`skin_id`=`skins`.`id` WHERE `user_id`={$_SESSION['userr']->get("identity")} ORDER BY `skins`.`price` DESC {$limit}";
             $res = mysqli_query($dbc,$sql);
             $skins = mysqli_fetch_all($res, MYSQLI_ASSOC);
             foreach($skins as $skin){
@@ -133,7 +119,7 @@
         function sellall(all){
             $.post("equall.php",{
                             equall: all,
-                            user_id: <?php echo json_encode($user[0]);?>
+                            user_id: <?php echo json_encode($_SESSION['userr']->get("identity"));?>
                         },function(data,status){
                             $('div.accountinfo').append(data);
                         }); 
@@ -142,7 +128,7 @@
         function myf(id){
             $.post("equsell.php",{
                             user_skins: id,
-                            user_id: <?php echo json_encode($user[0]);?>
+                            user_id: <?php echo json_encode($_SESSION['userr']->get("identity"));?>
                         },function(data,status){
                             $('div.accountinfo').append(data);
                         }); 

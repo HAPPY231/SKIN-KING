@@ -1,12 +1,6 @@
 <?php
-    session_start();
-    include("connect.php");
-    if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
-        $users = "SELECT * FROM user WHERE login='$_COOKIE[user]'";
-        $get = mysqli_query($dbc,$users);
-        $user = mysqli_fetch_row($get);
-    }
-    else{
+    include("controllers/controller.php");
+    if (@$_COOKIE['checksum'] != md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
         header("Location:index.php");
     }
 ?>
@@ -16,7 +10,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include("include.php"); head(); ?>
+    <meta http-equiv="refresh" content="60">
+    <?php head(); ?>
     <title>Losowanie</title>
 </head>
 <body>
@@ -26,20 +21,14 @@
         <center><h1>LOSOWANIE</h1></center>
         <div class="mx-auto w-50 text-center draw">
     <?php 
-    
-    //date_default_timezone_set('Europe/Warsaw');
-    //$date=date_create(date("Y-m-d H:i:s"));
-    //date_modify($date,"+30 minutes");
-    //$dataf = date_format($date,"Y-m-d H:i:s")."<br>";
-    // echo $dataf;
-    // echo $user[7]."<br>";
-    // echo date("Y-m-d H:i:s")."<br>";
+
     $dateactual = date("Y-m-d H:i:s");
     $now_timestamp = strtotime($dateactual);
-    $diff_timestamp = $now_timestamp - strtotime($user[7]);
+    $date_user = (string)$_SESSION['userr']->get("date");
+    $diff_timestamp = $now_timestamp - strtotime($date_user);
     $howmuch = round($diff_timestamp/60);
     $abs = abs($howmuch);
-    if($user[7]<$dateactual){
+    if($_SESSION['userr']->get("date")<$dateactual){
         echo "<button id='draw'>Losuj</button>";
     }
     else{
@@ -55,8 +44,8 @@
 
             $('#draw').click(function(){
                 $.post("draw.php",{
-                    user_id: <?php echo json_encode($user[0]); ?>,
-                    time: <?php echo json_encode($user[7]); ?>
+                    user_id: <?php echo json_encode($_SESSION['userr']->get("identity")); ?>,
+                    time: <?php echo json_encode($_SESSION['userr']->get("date")); ?>
                 },function(data,status){
                     $('div.draw').html(data);
                 });

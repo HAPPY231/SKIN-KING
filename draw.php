@@ -1,5 +1,5 @@
 <?php
-    include("connect.php");
+    include("controllers/controller.php");
     $user_id = $_POST['user_id'];
     $time_user = $_POST['time'];
 
@@ -31,6 +31,8 @@
     $win = array_search(getClosest($rang,$c),$c);
     $sqladd = "UPDATE user SET account_balance=account_balance+$win WHERE id='$user_id'";
     $addquery = mysqli_query($dbc,$sqladd);
+    $_SESSION['userr']->change_property("account_balance",$win,"add");
+
 
     date_default_timezone_set('Europe/Warsaw');
     $date=date_create(date("Y-m-d H:i:s"));
@@ -39,11 +41,8 @@
 
     $datechange = "UPDATE user SET `date`='$dataf' WHERE id='$user_id'";
     $mydatechaquery = mysqli_query($dbc,$datechange);
+$_SESSION['userr']->change_property("date",$dataf,"change");
+
     echo "Wygrałeś: ".$win."PLN";
-    
-    // echo "<ul>";
-    // foreach($add as $a){
-    //     echo "<li style='width: 200px; height:190px; text-align:center; background-color: #fff;' >{$a}</li>";
-    // }
-    // echo "</ul>";
+
 ?>

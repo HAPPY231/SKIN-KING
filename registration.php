@@ -5,15 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php
-    include("include.php");
+    include("controllers/controller.php");
     head();
-    include("connect.php");
     ?>
     <title>Rejestracja</title>
 	
 <?php
 
-	session_start();
 
 	date_default_timezone_set('Europe/Warsaw');
 
@@ -155,7 +153,7 @@ END;
 				//Czy email już istnieje?
 				$rezultat = $dbc->query("SELECT id FROM user WHERE email='$email'");
 				
-				if (!$rezultat) throw new Exception($polaczenie->error);
+				if (!$rezultat) throw new Exception($dbc->error);
 				
 				$ile_takich_maili = $rezultat->num_rows;
 				if($ile_takich_maili>0)
@@ -166,7 +164,7 @@ echo<<<END
 					<script>
 					$(function(){
 						$("#email").css({"border-color":"#F90716","border-weight":"1px","border-style":"solid"});
-		
+		                $('#emailHelp').css("display","none !important");
 					});
 					</script>
 		
@@ -177,7 +175,7 @@ END;
 				//Czy nick jest już zarezerwowany?
 				$rezultat = $dbc->query("SELECT id FROM user WHERE login='$nick'");
 				
-				if (!$rezultat) throw new Exception($polaczenie->error);
+				if (!$rezultat) throw new Exception($dbc->error);
 				
 				$ile_takich_nickow = $rezultat->num_rows;
 				if($ile_takich_nickow>0)
@@ -188,19 +186,19 @@ echo<<<END
 					<script>
 					$(function(){
 						$("#login").css({"border-color":"#F90716","border-weight":"1px","border-style":"solid"});
-		
+		                
 					});
 					</script>
 		
 END;
-					$_SESSION['e_loginn']="Istnieje już gracz o takim nicku! Wybierz inny.";
+					$_SESSION['e_loginn']="Istnieje już użytkownik o takim nicku! Wybierz inny.";
 				}
 				
 				if ($wszystko_OK==true)
 				{
 					//Hurra, wszystkie testy zaliczone, dodajemy gracza do bazy
 					$data = date("Y-m-d H:i:s");
-					if ($dbc->query("INSERT INTO user VALUES (NULL, '$nick', '$haslo_hash', '$email',100,1,0,'$data',0)"))
+					if ($dbc->query("INSERT INTO user VALUES (NULL, '$nick', '$haslo_hash', '$email',100,1,0,'$data',0,'default_image')"))
 					{
 						$_SESSION["udalosieza"] = true;
 						$_SESSION['udanarejestracja']=true;
@@ -239,10 +237,12 @@ END;
    ?>
     <div class="container">
         <div class="Zalog">
-		<form method="post">
+            <h1>Zarejestruj się</h1>
+		<form method="post" id="registration">
 		<div class="form-group">
     <label for="login">Login</label>
-    <input type="text" class="form-control" id="login" name="login" placeholder="Wpisz Login">
+    <input type="text" class="form-control" id="login" name="login" minlength="8"
+           maxlength="30" placeholder="Wpisz Login" required>
 	<small id="emailHelp" class="form-text text-muted">Musi zawierać od 3 do 30 znaków.</small>
 	<?php
 			if (isset($_SESSION['e_loginn']))
@@ -255,8 +255,10 @@ END;
   </div>
   <div class="form-group">
     <label for="email">E-mail</label>
-    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Wpisz Email">
-    <small id="emailHelp" class="form-text text-muted">Nigdy nie podamy komuś twojego adresu e-mail.</small>
+    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+           placeholder="Wpisz Email" required>
+    <small id="emailHelp" class="form-text text-muted">Nigdy nie podamy komuś twojego adresu
+        <br>e-mail.</small>
 	<?php
 			if (isset($_SESSION['e_emaill']))
 			{
@@ -268,7 +270,10 @@ END;
   </div>
   <div class="form-group">
     <label for="haslo1">Hasło</label>
-    <input type="password" class="form-control" id="haslo1" name="haslo1" placeholder="Wpisz hasło">
+    <input type="password" class="form-control" id="haslo1" name="haslo1" minlength="8"
+           maxlength="30"
+           placeholder="Wpisz
+    hasło" required>
 	<small id="emailHelp" class="form-text text-muted">Musi zawierać od 8 do 30 znaków.</small>
 	<?php
 			if (isset($_SESSION['e_haslo']))
@@ -280,7 +285,8 @@ END;
   </div>
   <div class="form-group">
     <label for="haslo2">Powtórz hasło</label>
-    <input type="password" class="form-control" id="haslo2" name="haslo2" placeholder="Powtórz hasło">
+    <input type="password" class="form-control" id="haslo2" name="haslo2" minlength="8"
+           maxlength="30"  placeholder="Powtórz hasło" required>
   </div>
   <div class="form-group form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1" name="regulamin">

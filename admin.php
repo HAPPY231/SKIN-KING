@@ -1,13 +1,10 @@
 <?php
-    session_start();
-    include("connect.php");
+include("controllers/controller.php");
+
     if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
-        $users = "SELECT * FROM user WHERE login='$_COOKIE[user]'";
-        $get = mysqli_query($dbc,$users);
-        $user = mysqli_fetch_row($get);
-        if($user[8]!=1){
-            header("Location:index.php");
-        }
+       if($_SESSION['userr']->get("identity")!=true) {
+           header("Location:index.php");
+       }
     }
     else{
         header("Location:index.php");
@@ -21,7 +18,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include("include.php"); head(); ?>
+    <?php head(); ?>
     <title>Admin</title>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
@@ -55,6 +52,7 @@
                         $str = "Dzisiejsza strata";
                     }
                     $draws = $resprof->num_rows;
+                    $dailyprofit = round($dailyprofit,2);
                     echo "<h1>".$str."</h1>";
                     echo "<h3>".$dailyprofit." PLN</h3>";
                     echo "<h4>Ilość otwartych skrzynek: ".$draws."</h4>";

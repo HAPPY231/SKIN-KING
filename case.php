@@ -1,15 +1,9 @@
-<?php 
-session_start();
-include("include.php");
-include("connect.php");
-include_once("clasess/skin.php");
+<?php
 
-$_SESSION['case'] = $_GET['case_id']; 
-if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
-    $users = "SELECT * FROM user WHERE login='$_COOKIE[user]'";
-    $get = mysqli_query($dbc,$users);
-    $user = mysqli_fetch_row($get);
-}
+include("controllers/controller.php");
+
+$_SESSION['case'] = $_GET['case_id'];
+
 
 ?>
 <!doctype html>
@@ -23,11 +17,12 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
     
     head();
     
-    $sql = "SELECT * FROM cases WHERE id=$_SESSION[case]";
+    $sql = "SELECT * FROM cases WHERE id={$_SESSION['case']}";
     $case = mysqli_query($dbc,$sql);
     $checkforsecure = $case->num_rows;
     if($checkforsecure<=0){
         header("Location:index.php");
+        exit();
     }
     $row = mysqli_fetch_row($case)
 
@@ -48,16 +43,18 @@ if (@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) {
                 <span style="font-family: Montserrat,sans-serif; color: #4ead78; font-size: 35px; text-transform: capitalize; font-weight: 800; margin: 0 0 25px;"><?php echo $row[1]; ?></span>
 
                 <span>Wartość skrzynki: <?php echo $row[3]; ?> PLN</span>
+                <span>Doświadczenie ze skrzynki: <?php echo $row[4]; ?> EXP</span>
                 <br>
 <?php
-if ((@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) && $user[4]>=$row[3]) {
+if ((@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) &&
+    $_SESSION['userr']->get("account_balance")>=$row[3]) {
 echo<<<END
                 <button id="open">
                         Otwórz
                 </button>
 END;
 }
-else if((@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) && $user[4]<$row[3]){
+else if((@$_COOKIE['checksum'] == md5(@$_COOKIE['user']).@$_COOKIE['login_dod']) && $_SESSION['userr']->get("account_balance")<$row[3]){
     echo "<a href='lottery.php'>Doładuj konto!</a>";
 }
 else{echo "<a href='logowanie.php'>Zaloguj się aby otworzyć tą skrzynkę!</a>";}
@@ -94,69 +91,15 @@ unset($_SESSION['skin_sell']);
                 $.post("open.php",{
                     case_id: <?php echo json_encode($row[0]); ?>,
                     case_value: <?php echo json_encode($row[3]); ?>,
-                    user_id: <?php echo json_encode($user[0]); ?>
+                    user_id: <?php echo json_encode($_SESSION['userr']->get("identity")); ?>
                 },function(data,status){
                     $('div.keys').html(data);
                 });
             });
 
-            if($(window).width() < 770) {
-                $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
-                $(".keys").css({"flex-direction":"column","align-items":"center"});
-                $(".open").css({"width":"100%","align-content":"center"});
-                $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
-                $(".infos").css("width","100%");
-
-            }
-
-            $(window).resize(function() {
-                if($(window).width() < 770) {
-                    $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
-                    $(".keys").css("flex-direction","column");
-                    $(".open").css({"width":"100%","align-content":"center"});
-                    $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
-                    $(".infos").css("width","100%");
-                }
-                else{
-                    $(".perpendicular-line").css({"width":"20%","transform":"rotate(90deg)","margin-left":"0","margin-right":"0"});
-                    $(".keys").css("flex-direction","row");
-                    $(".open").css({"width":"35%","align-content":"flex-start"});
-                    $(".winner").css({"width":"70%","flex-direction":"row","align-items":"center"});
-                    $(".infos").css("width","50%");
-                }
-            });
             
         });
 
-        function cff(){
-  
-             if($(window).width() < 770) {
-                $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
-                $(".keys").css({"flex-direction":"column","align-items":"center"});
-                $(".open").css({"width":"100%","align-content":"center"});
-                $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
-                $(".infos").css("width","100%");
- 
-             }
- 
-             $(window).resize(function() {
-                if($(window).width() < 770) {
-                $(".perpendicular-line").css({"width":"70%","transform":"rotate(0deg)","margin-left":"auto","margin-right":"auto"});
-                $(".keys").css("flex-direction","column");
-                $(".open").css({"width":"100%","align-content":"center"});
-                $(".winner").css({"width":"100%","flex-direction":"column","align-items":"center"});
-                $(".infos").css("width","100%");
-                }
-                else{
-                $(".perpendicular-line").css({"width":"20%","transform":"rotate(90deg)","margin-left":"0","margin-right":"0"});
-                $(".keys").css("flex-direction","row");
-                $(".open").css({"width":"35%","align-content":"flex-start"});
-                $(".winner").css({"width":"70%","flex-direction":"row","align-items":"center"});
-                $(".infos").css("width","50%");
-                }
-             });
-             
-         };
             
 
     </script>
@@ -175,9 +118,9 @@ unset($_SESSION['skin_sell']);
                     $check = check($case_skin['Container Odds'],webkit,moz,box,colorr,colorp,colorpur,colorb,colorg);
 echo<<<END
 
-                        <div class="skin" style="width: 250px; height: 250px; margin-top: 20px; margin-left: 20px; text-align: center; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; align-content: flex-end;{$check}">
-                            <div class="image" style="width: 200px; height:190px; background-image: url('skins/{$case_skin['image']}.png'); background-repeat: no-repeat;  background-size: 100% 100%;">
-                             <span style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-end; align-content: flex-end;">{$case_skin['name']}
+                        <div class="skin" style=" {$check}">
+                            <div class="image" style=" background-image: url('skins/{$case_skin['image']}.png');">
+                             <span>{$case_skin['name']}<br>
                              
                               {$case_skin['price']}PLN</span>
                             </div>
