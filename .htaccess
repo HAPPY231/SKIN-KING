@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^(.*)/(.*)$ http://localhost/SKIN-KING-OOP/index.php?cmd=$1&id=$2 [QSA]
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^(.*)$ http://localhost/SKIN-KING-OOP/index.php?cmd=$1 [QSA]
